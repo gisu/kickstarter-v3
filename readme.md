@@ -1,7 +1,7 @@
 ##Kickstarter
 ###For rapid template development
 
-Documentation: (http://kickstarter.jiffdesign.de/ "Kickstarter")
+Is a Old Framework - do not use.
 
 ***
 
