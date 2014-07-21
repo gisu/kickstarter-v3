@@ -1,0 +1,253 @@
+@mixin prettyprint($option: bright) 
+	@if $option == bright
+		.prettyprint
+			background: #fefefe
+			max-height: 337px
+			overflow: auto
+			border: 1px solid rgba(0,0,0,0.2)
+			position: relative
+			padding-left: 5px
+			+border-radius(4px)
+			code
+				padding: 0
+				border: 0
+				background: none
+				font-size: inherit
+				color: inherit
+			.nocode
+				background-color: none 
+				color: #000 
+			.str
+				color: #D14  
+			.kwd
+				color: #165CA3 
+			.com
+				color: #93a1a1 
+			.typ
+				color: #000 
+			.lit
+				color: #A22FDF
+			.pun
+				color: #93a1a1
+			.pln
+				color: #48484c 
+			.tag
+				color: #861681
+			.atn
+				color: #C5680C
+			.atv
+				color: #2F7EBF
+			.dec
+				color: #EA8C00
+			.var
+				color: teal
+			.tag
+				color: #1e347b
+			.typ
+				color: teal
+			.fun
+				color: #dc322f
+			.opn
+				color: #93a1a1
+			.clo
+				color: #93a1a1
+			.src
+				color: #CB327A
+
+			&.linenums
+				+box-shadow(inset 0px 0 0 #fefefe, inset 55px 0 0 #efefef)
+				padding-left: 0
+			ol
+				margin: 0 0 0 0px
+				list-style: none
+				li
+					padding-left: 12px
+
+			ol.linenums
+				margin: 0 0 0 55px
+				color: #999  
+				+text-shadow(0 1px 1px rgba(0,0,0,0.1))
+				list-style: decimal
+				+box-shadow(inset 1px 0 0 #D6D6D6, inset 1px 0 0 #fff)
+				li
+					padding-left: 12px
+
+			&.syntax
+				padding-top: 25px
+				&:before
+					position: absolute
+					top: 0px
+					left: 0
+					text-indent: 10px
+					content: ""
+					width: 100%
+					background: #fefefe
+					color: #858585
+					font-size: 12px
+					border-bottom: 1px solid #ddd
+					+border-radius(4px 4px 0 0)
+				ol
+					padding-top: 5px
+
+				&.lang-sass
+					&:before
+						content: "Syntax: SASS"
+
+				&.lang-scss
+					&:before
+						content: "Syntax: SCSS"
+
+				&.lang-css
+					&:before
+						content: "Syntax: CSS"
+
+				&.lang-html
+					&:before
+						content: "Syntax: HTML"
+
+				&.lang-php
+					&:before
+						content: "Syntax: PHP"
+
+				&.lang-ruby
+					&:before
+						content: "Syntax: Ruby"
+
+				&.lang-javascript
+					&:before
+						content: "Syntax: Javascript / JQuery"
+
+		code
+			background: #f7f7f7
+			+border-radius(4px)
+			border: 1px solid rgba(0,0,0,0.2)
+			font-family: font-stack-monospace()
+			font-size: $body-font-size - 3px
+			padding: 2px 4px 2px
+			color: #464646
+
+	@if $option == dark
+		.prettyprint
+			background: #1d2123
+			max-height: 337px
+			overflow: auto
+			position: relative
+			padding-left: 5px
+			+border-radius(4px)
+			code
+				padding: 0
+				border: 0
+				background: none
+				font-size: inherit
+				color: inherit
+			.nocode
+				background-color: none 
+				color: #fff 
+			.str
+				color: #FDDF84  
+			.kwd
+				color: #EF773D 
+			.com
+				color: #93a1a1 
+			.typ
+				color: #FC365E 
+			.lit
+				color: #AF50E2
+			.pun
+				color: #93a1a1
+			.pln
+				color: #BEBEC0 
+			.tag
+				color: #861681
+			.atn
+				color: #39EFF9
+			.atv
+				color: #3AD8F3
+			.dec
+				color: #C4F72B
+			.var
+				color: #C4F72B
+			.tag
+				color: #A7F96A
+			.fun
+				color: #dc322f
+			.opn
+				color: #93a1a1
+			.clo
+				color: #93a1a1
+			.dec
+				color: #FCA625
+			.src
+				color: #9BF91C
+			&.linenums
+				+box-shadow(inset 0px 0 0 #1d2123, inset 55px 0 0 #1d2123)
+				padding-left: 0
+			ol
+				margin: 0 0 0 0px
+				list-style: none
+				li
+					padding-left: 12px
+
+			ol.linenums
+				margin: 0 0 0 55px
+				color: #999  
+				+text-shadow(0 1px 1px rgba(255,255,255,0.1))
+				list-style: decimal
+				+box-shadow(inset 1px 0 0 #626262, inset 1px 0 0 #fff)
+				li
+					padding-left: 12px
+
+			&.syntax
+				padding-top: 25px
+				&:before
+					position: absolute
+					top: 0px
+					left: 0
+					text-indent: 10px
+					content: ""
+					width: 100%
+					background: #383d3f
+					color: #D4D4D4
+					font-size: 12px
+					border-bottom: 1px solid #555
+					+border-radius(4px 4px 0 0)
+				ol
+					padding-top: 5px
+
+				&.lang-sass
+					&:before
+						content: "Syntax: SASS"
+
+				&.lang-scss
+					&:before
+						content: "Syntax: SCSS"
+
+				&.lang-css
+					&:before
+						content: "Syntax: CSS"
+
+				&.lang-html
+					&:before
+						content: "Syntax: HTML"
+
+				&.lang-php
+					&:before
+						content: "Syntax: PHP"
+
+				&.lang-ruby
+					&:before
+						content: "Syntax: Ruby"
+
+				&.lang-javascript
+					&:before
+						content: "Syntax: Javascript / JQuery"
+
+		code
+			background: #1d2123
+			+border-radius(4px)
+			border: 1px solid rgba(255,255,255,0.2)
+			font-family: font-stack-monospace()
+			font-size: $body-font-size - 3px
+			padding: 2px 4px 2px
+			color: #DDDDDD
+			text-shadow: none

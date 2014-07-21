@@ -1,0 +1,477 @@
+// Buttons
+.button
+	background      : $default-color
+	border          : none
+	color           : $white
+	cursor          : pointer
+	display         : inline-block
+	line-height     : 1
+	padding         : 9px 34px 11px
+	position        : relative
+	text-align      : center
+	text-decoration : none
+	outline         : none
+	margin          : 0
+
+	&.bold
+		font-weight : bold
+	
+	&.glossy
+		background       : image-url("misc/grad-glossy.png") repeat-x left center
+		background-color : $default-color
+		+background-image(linear-gradient(rgba(#fff, 0.2) 0%, rgba(#fff, 0.2) 50%, rgba(#000, 0) 51%, rgba(#000, 0) 100%))
+
+	&.soft
+		background       : image-url("misc/grad-soft.png") repeat-x left center
+		background-color : $default-color
+		+background-image(linear-gradient(rgba(#fff, 0.2) 0%, rgba(#000, 0) 310%))
+
+	&.styled
+		+box-shadow(inset 0 1px 0 rgba(#fff, 0.5))
+		text-shadow : 0 1px 1px rgba(#000, 0.45)
+		border      : 1px solid darken($default-color, 7%)
+		+transition-property(background-color)
+		+transition-duration($button-transition-duration)
+		+transition-timing-function(ease-in-out)
+
+		
+		// Styled button borders
+		@if $red != false
+			&.red
+				border: solid 1px darken($red, 7%)
+		@if $blue != false
+			&.blue
+				border: solid 1px darken($blue, 7%)
+		@if $green != false
+			&.green
+				border: solid 1px darken($green, 7%)
+		@if $yellow != false
+			&.yellow
+				border: solid 1px darken($yellow, 7%)
+		@if $orange != false
+			&.orange
+				border: solid 1px darken($orange, 7%)
+		@if $white != false    
+			&.white
+				border: solid 1px darken($white, 15%)
+				text-shadow: none !important
+		@if $black != false
+			&.black
+				border: solid 1px darken($black, 7%)
+			
+	// Button colors and hover states
+	// Base hover state
+	&:hover, &:focus
+		background-color : darken($default-color, 5%)
+		color            : #fff
+	@if $red != false
+		&.red
+			background-color: $red
+			&:hover, &:focus
+				background-color: darken($red, 5%)
+	@if $blue != false
+		&.blue
+			background-color: $blue
+			&:hover, &:focus
+				background-color: darken($blue, 5%)
+	@if $green != false
+		&.green
+			background-color: $green
+			&:hover, &:focus
+				background-color: darken($green, 5%)
+	@if $orange != false
+		&.orange
+			background-color: $orange
+			&:hover, &:focus
+				background-color: darken($orange, 5%)
+	@if $yellow != false
+		&.yellow
+			background-color: $yellow
+			&:hover, &:focus
+				background-color: darken($yellow, 5%)
+	@if $white != false  
+		&.white
+			background-color: darken($white, 4%)
+			color: #333
+			&:hover, &:focus
+				background-color: darken($white, 10%)
+				color: #333
+	@if $black != false
+		&.black
+			background-color: $black
+			&:hover, &:focus
+				background-color: darken($black, 5%)
+
+	// Button shapes
+	&.radius
+		+border-radius(3px)
+	&.round
+		+border-radius(1000px)
+
+	// Button layout
+	&.full-width
+		width         : 100%
+		padding-left  : 0 !important
+		padding-right : 0 !important
+		text-align    : center
+	&.left-align
+		text-align  : left
+		text-indent : 12px
+	&.right-align
+		text-align : right
+		&:after
+			content : ''
+			width   : 12px
+			height  : 1px
+			display : inline-block
+
+	// Button sizes
+	&.supersmall
+		font-size : $body-font-size - 4px
+		padding   : 1px 3px
+		width     : auto
+	&.small
+		font-size : $body-font-size - 4px
+		padding   : 4px 10px 6px
+		width     : auto
+	&.medium
+		font-size : $body-font-size - 2px
+		width     : auto
+		padding   : 7px 20px 9px
+	&.large
+		font-size : $body-font-size + 5px
+		padding   : 15px 48px 13px
+		width     : auto
+
+	// Button disabled states
+	&.disabled, &[disabled]
+		+opacity(0.6)
+		cursor: default
+
+// Button Grouping
+@mixin button-group
+	.button-group
+		display: inline-block
+		@extend .clearfix
+		&.supersmall
+			.button
+				font-size : $body-font-size - 4px
+				padding   : 1px 3px
+				width     : auto
+		&.small
+			.button
+				font-size : $body-font-size - 4px
+				padding   : 4px 10px 6px
+				width     : auto
+		&.medium
+			.button
+				font-size : $body-font-size - 2px
+				width     : auto
+		&.large
+			.button
+				font-size : $body-font-size + 5px
+				padding   : 15px 48px 13px
+				width     : auto
+		.button
+			float: left
+			&.radius, &.round
+				+border-radius(0)
+			&.styled
+				border: none
+		&.radius
+			+border-radius(4px)
+			.button
+				&:first-child
+					+border-radius(3px 0 0 3px)
+				&:last-child
+					+border-radius(0px 3px 3px 0)
+		&.round
+			+border-radius(50px)
+			.button
+				&:first-child
+					+border-radius(55px 0 0 55px)
+				&:last-child
+					+border-radius(0 55px 55px 0)
+		&.styled
+			border: 1px solid darken($default-color, 7%)
+			.button
+				border-right: solid 1px darken($default-color, 7%)
+			@if $red != false
+				&.red
+					border: solid 1px darken($red, 7%)
+					.button
+						border-right: solid 1px darken($red, 7%)
+					
+			@if $blue != false
+				&.blue
+					border: solid 1px darken($blue, 7%)
+					.button
+						border-right: solid 1px darken($blue, 7%)
+						
+			@if $green != false
+				&.green
+					border: solid 1px darken($green, 7%)
+					.button
+						border-right: solid 1px darken($green, 7%)
+					
+			@if $yellow != false
+				&.yellow
+					border: solid 1px darken($yellow, 7%)
+					.button
+						border-right: solid 1px darken($yellow, 7%)
+					
+			@if $orange != false
+				&.orange
+					border: solid 1px darken($orange, 7%)
+					.button
+						border-right: solid 1px darken($orange, 7%)
+					
+			@if $white != false    
+				&.white
+					border: solid 1px darken($white, 15%)
+					.button
+						border-right: solid 1px darken($white, 14%)
+					
+			@if $black != false
+				&.black
+					border: solid 1px darken($black, 7%)
+					.button
+						border-right: solid 1px darken($black, 7%)
+			.button
+				&:last-child
+					border-right: none
+
+
+//----------------------------------------------------
+
+// Don't use native buttons on iOS
+input[type=submit].button, button.button
+	-webkit-appearance: none
+
+@mixin button-3d-simple($button-color: $default-color, $color: #fff, $radius: 5, $padding: 8,$margin: 8, $background: #ccd0d5)
+	background-color : $button-color
+	padding          : $padding + 0px
+	position         : relative
+	text-decoration  : none
+	color            : $color
+	border           : solid 1px darken($button-color,25)
+	+box-shadow(inset 0px 1px 0px lighten($button-color,27), 0px 1px 0px #fff)
+	+background(linear-gradient(bottom, darken($button-color,10) 0%, lighten($button-color,10) 100%))
+	@if $radius > 0
+		$radius : $radius + 0px
+		+border-radius($radius)
+
+	&:hover
+		color: $color
+
+	&:active,&:hover
+		padding-bottom   : $padding - 1px
+		padding-left     : $padding + 0px
+		padding-right    : $padding + 0px
+		padding-top      : $padding + 1px
+		top              : 1px
+		background-color : darken($button-color,10)
+		+background(linear-gradient(bottom, $button-color 1%, darken($button-color,4) 100%))
+
+	&:before
+		background-color : $background
+		content          : ''
+		display          : block
+		position         : absolute
+		width            : 100%
+		height           : 100%
+		padding          : $margin + 0px
+		left             : 0px - $margin
+		top              : 0px - $margin
+		z-index          : -1
+		@if $radius > 0
+			$radius : $radius + 0px
+			+border-radius($radius)
+		+box-shadow(inset 0px 1px 1px #909193, 0px 1px 0px #fff)
+
+
+@mixin button-push($button-color: $default-color, $color: #fff, $radius: 5, $padding: 10, $margin: 4, $background:#ccd0d5)
+	padding          : $padding + 0px
+	position         : relative
+	text-decoration  : none
+	color            : $color
+	margin           : 0 4px
+	background-color : lighten($button-color,10)
+	+background(linear-gradient(bottom, darken($button-color,10) 0%, lighten($button-color,10) 100%))
+	+box-shadow(inset 0px 1px 0px lighten($button-color,30), 0px 6px 0px darken($button-color,40))
+	@if $radius > 0
+		$radius : $radius + 0px
+		+border-radius($radius)
+
+	&:hover
+		color: $color
+
+	&.active, &:hover
+		top        : 7px
+		color      : #156785
+		+background(linear-gradient(bottom, $button-color 1%, darken($button-color,4) 100%))
+		+box-shadow(inset 0px 1px 0px lighten($button-color,30), inset 0px -1px 0px darken($button-color,40))
+		+text-shadow(0px 1px 1px rgba(255,255,255,0.3))
+
+		&:before
+			top: $margin - 6px 
+
+	&:before
+		background-color : $background
+		content          : ''
+		display          : block
+		position         : absolute
+		width            : 100%
+		height           : 100%
+		padding-left     : $margin - 2px
+		padding-right    : $margin - 2px
+		padding-bottom   : $margin + 0px
+		left             : 0 - ($margin - 2px) 
+		top              : $margin + 1px
+		z-index          : -1
+		@if $radius > 0
+			$radius : $radius + 1px
+			+border-radius($radius)
+		+box-shadow(inset 0px 1px 1px #909193, 0px 1px 0px #fff)
+
+@mixin button-soft-push($button-color: $default-color, $color: #fff, $radius: 5, $padding: 10)
+	text-decoration : none
+	color           : $color
+	position        : relative
+	padding         : ($padding + 0px) 20px
+	@if $radius > 0
+		$radius: $radius + 0px
+		+border-radius($radius)
+	background-color: $button-color
+	+background(linear-gradient(bottom, darken($button-color,15) 0%,lighten($button-color,5) 100%))
+	+box-shadow(inset 0px 1px 0px lighten($button-color,30), 0px 5px 0px 0px darken($button-color,30), 0px 10px 5px rgba(0,0,0,0.3))
+
+	&:hover
+		color: #fff
+
+	&.active,&:hover 
+		top: 3px
+		+background(linear-gradient(bottom, darken($button-color,2) 0%, lighten($button-color,2) 100%))
+		+box-shadow(inset 0px 1px 0px lighten($button-color,30), 0px 2px 0px 0px darken($button-color,30), 0px 5px 3px rgba(0,0,0,0.4))
+
+@mixin button-split($button-color: $default-color, $color: #fff, $radius: 5, $padding: 10, $width: 35, $site: left)
+	text-decoration : none
+	color           : $color
+	position        : relative
+	padding         : 0 20px
+	line-height     : $padding * 2 + 20px
+	display         : inline-block
+	@if $site == left 
+		border-left     : solid 1px lighten($button-color,30)
+		margin-left     : $width + 0px
+	@else
+		border-right     : solid 1px lighten($button-color,30)
+		margin-right     : $width + 0px
+	@if $radius > 0
+		$radius: $radius + 0px
+		@if $site == left 
+			+border-radius(0 $radius $radius 0)
+		@else
+			+border-radius($radius 0 0 $radius)
+	background-color: $button-color
+	+background(linear-gradient(bottom, darken($button-color,15) 0%,lighten($button-color,5) 100%))
+	+box-shadow(inset 0px 1px 0px lighten($button-color,30), 0px 5px 0px 0px darken($button-color,30), 0px 10px 5px rgba(0,0,0,0.4))
+
+	&:hover
+		color: #fff
+
+	&.active,&:hover 
+		top: 3px
+		+background(linear-gradient(bottom, darken($button-color,2) 0%, lighten($button-color,2) 100%))
+		+box-shadow(inset 0px 1px 0px lighten($button-color,30), 0px 2px 0px 0px darken($button-color,30), 0px 5px 3px #999)
+
+		&:before
+			top: -3px
+			@if $site == left 
+				+box-shadow(inset 0px 1px 0px lighten($button-color,25), 0px 5px 0px 0px darken($button-color,45), 1px 1px 0px 0px darken($button-color,37), 2px 2px 0px 0px darken($button-color,38), 2px 5px 0px 0px darken($button-color,40), 6px 4px 2px rgba(0,0,0,0.3), 0px 10px 5px rgba(0,0,0,0.4))
+			@else
+				+box-shadow(inset 0px 1px 0px lighten($button-color,25), 0px 5px 0px 0px darken($button-color,45), -1px 1px 0px 0px darken($button-color,37), -2px 2px 0px 0px darken($button-color,38), -2px 5px 0px 0px darken($button-color,40), -6px 4px 2px rgba(0,0,0,0.3), 0px 10px 5px rgba(0,0,0,0.4))
+
+	&:before 
+		content             : attr(data-text)
+		width               : $width + 0px
+		line-height         : $padding * 2 + 20px
+		background-repeat   : no-repeat
+		background-position : center center
+		position            : absolute
+		display             : block
+		text-align          : center
+		top                 : 0px
+		@if $site == left 
+			left            : 0 - $width + 0px
+			border-left     : solid 1px darken($button-color,38)
+		@else 
+			right            : 0 - $width + 0px
+			border-right     : solid 1px darken($button-color,38)
+		font-weight      : bold
+		overflow         : hidden
+		color            : rgba(255,255,255,0.7)
+		background-color : darken($button-color,28)
+		@content
+		+text-shadow(1px 1px 0px #07526e)
+		+background(linear-gradient(bottom, darken($button-color,28) 0%, darken($button-color,18) 100%))
+		@if $radius > 0 
+			$radius: $radius + 0px
+			@if $site == left
+				+border-radius($radius 0 0 $radius)
+			@else
+				+border-radius(0 $radius $radius 0)
+		+box-shadow(inset 0px 1px 0px lighten($button-color,25), 0px 5px 0px 0px darken($button-color,45), 0px 10px 5px rgba(0,0,0,0.4))
+
+@mixin button-disc($button-color: $default-color, $color: #fff, $radius: 5, $padding: 10, $discsize: 20, $site: right)
+	text-decoration : none
+	color           : $color
+	position        : relative
+	padding         : ($padding + 0px) 20px
+	display         : inline-block
+	@if $site == right
+		padding-right: 50px + ($discsize - 20px)
+	@if $site == left
+		padding-left: 50px + ($discsize - 20px)
+
+	background-color : lighten($button-color,5)
+	+background(linear-gradient(bottom, darken($button-color,15) 0%,lighten($button-color,5) 100%))
+	@if $radius > 0 
+		$radius: $radius + 0px
+		+border-radius($radius)
+		+box-shadow(inset 0px 1px 0px lighten($button-color,30), 0px 5px 0px 0px darken($button-color,30), 0px 10px 5px rgba(0,0,0,0.4)) 
+
+	&:hover
+		color: $color
+
+	&.active, &:hover
+		top: 3px
+		+background(linear-gradient(bottom, darken($button-color,2) 0%, lighten($button-color,2) 100%))
+		+box-shadow(inset 0px 1px 0px lighten($button-color,30), 0px 2px 0px 0px darken($button-color,30), 0px 5px 3px rgba(0,0,0,0.4))
+
+		&:before
+			top: 50%
+			margin-top: 0 - ($discsize / 2 + 2px) 
+			+box-shadow(inset 0px 1px 0px rgba(255,255,255,0.3), 0px 3px 0px darken($button-color,50), 0px 6px 3px rgba(0,0,0,0.4))
+
+	&:before 
+		content             : attr(data-text)
+		background-repeat   : no-repeat
+		background-position : center center
+		line-height         : $discsize - 2px
+		text-align          : center
+		width               : $discsize + 0px
+		height              : $discsize + 0px
+		position            : absolute
+		top                 : 50%
+		margin-top          : 0 - ($discsize / 2 - 1px) 
+		background-color    : darken($button-color,20)
+		@if $site == right
+			right: 15px
+		@if $site == left
+			left: 15px
+		@content
+		+border-radius(50%)
+		+box-shadow(inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 1px rgba(255,255,255,0.6))
+
+

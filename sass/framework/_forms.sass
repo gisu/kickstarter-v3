@@ -1,0 +1,303 @@
+// Form Elements
+
+form
+	margin-bottom : $body-line-height + 0px
+	label 
+		display       : block
+		line-height   : $body-line-height + 0px
+		cursor        : pointer
+		margin-bottom : ($body-line-height + 0px)  / 2
+		font-size: $body-font-size - 2px
+
+input, textarea, select, .placeholder, button
+	font-family : $body-font-family
+	font-size   : $body-font-size + 0px 
+	color       : $body-color
+	margin-bottom : ($body-line-height + 0px)  / 2
+
+input.input-text, textarea
+	border  : 1px solid #bbb
+
+input.input-text, textarea, select
+	display: block 
+	margin-bottom: 9px
+
+label + input.input-text, label + textarea, label + select, label + div.dropdown, select + div.dropdown
+	margin-top: -9px
+	
+input.input-text, textarea
+	font-size: $body-font-size - 2px
+	padding: 4px 3px 2px
+	background: #fff
+
+input, textarea
+	&.oversize
+		font-size   : $body-font-size + 2px !important
+		line-height : $body-line-height + 2px
+	&.supersize
+		font-size   : $body-font-size + 6px !important
+		line-height : $body-line-height + 3px
+
+// Text input and textarea, disabled
+input[disabled], select[disabled], textarea[disabled], input[readonly], select[readonly], textarea[readonly]
+	cursor: not-allowed
+	border-color: #ddd
+	background: #efefef
+	
+// Inlined Label Style
+input, textarea
+	.placeholder
+		color: #888
+
+input::-webkit-input-placeholder
+	color: #888 !important
+
+input::-webkit-textarea-placeholder
+	color: #888 !important
+
+input:-moz-placeholder
+	color: #888 !important
+	
+// Text input and textarea sizes
+input
+	&.input-text
+		width: 35%
+textarea
+	width: 35%
+	overflow: auto
+	&.noresize
+		resize: none
+input, textarea
+	&.small
+		width: 20%
+	&.medium
+		width: 45%
+	&.large
+		width: 55%
+	&.full
+		width: 99%
+
+// Fieldsets
+form
+	fieldset
+		padding : 9px 9px 2px 9px
+		border  : solid 1px #eee
+		margin  : ($body-line-height + 0px) 0
+
+// Inlined Radio & Checkbox
+.form-field input[type=radio], .form-field input[type=checkbox]
+	display       : inline
+	width         : auto
+	margin-bottom : 0
+
+// Errors
+.form-field.error input, input.input-text.red
+	border-color     : #c00000 
+	background-color : rgba(255,0,0,0.15)
+.form-field.error label, label.red
+	color: #c00000
+.form-field.error small, small.error
+	margin-top    : -6px
+	display       : block
+	margin-bottom : 9px
+	font-size     : $body-font-size - 2px
+	color         : red
+	width         : 260px
+.small+.error
+	width: 20%
+.medium+.error
+	width: 45%
+.large+.error
+	width: 55%
+.full+.error
+	width: 99%
+
+
+// Nicer Forms
+@mixin form-nicer($focusstyle: insert, $color: $default-color, $radius: 4)
+	input.input-text, textarea
+		@if $radius > 0
+			$radius : $radius + 0px
+		+border-radius($radius)
+		padding : 6px 3px 4px
+		border  : solid 1px #bbb
+
+		@if $focusstyle == insert
+			background-color : #f9f9f9
+			outline          : none !important
+			&:focus
+				+box-shadow(inset 0 2px 3px rgba(0,0,0,0.2))
+				.lt-ie9 &
+					background: #f9f9f9 image-url("misc/box-insetshadow.png") repeat-x top left
+		@if $focusstyle == dropshadow
+			outline    : none !important
+			+box-shadow(0 2px 3px rgba(0,0,0,0.3))
+			&:focus
+				+box-shadow(none)
+		@if $focusstyle == glow
+			outline    : none !important
+			&:focus
+				border-color: $color
+				+box-shadow(0 0 5px $color)
+		@if $focusstyle == border
+			outline    : none !important
+			&:focus
+				border-color: $color
+
+		fieldset
+			@if $radius > 0
+				$radius : $radius + 0px
+				+border-radius($radius)
+
+	small.error
+		padding      : 6px 4px
+		border-width : 0 1px 1px 1px
+		margin-top   : -10px
+		background   : #c00000
+		color        : #fff
+		font-size    : $body-font-size - 1px
+		+box-shadow(0 2px 3px rgba(0,0,0,0.4))
+		@if $radius > 0
+			$radius : $radius + 0px
+			+border-radius(0 0 $radius $radius)
+	.small+.error
+		width: 19.7%
+	.medium+.error
+		width: 45%
+	.large+.error
+		width: 54.7%
+	.full+.error
+		width: 98.7%
+		
+// Custom Forms
+@mixin form-custom($background: #fff, $dropdown: $background, $hover-bg: $default-color, $current-text: #666, $hover-text: #fff, $selected-text: #000, $selected-bg: #fff, $radius:0, $border-color: #ddd, $shadow: false)
+	span.custom
+		$checkradio-height : fwicons-sprite-height(cf-checkbox)
+		@if $checkradio-height > 14px
+			margin-bottom: 0 - (($checkradio-height - 14px) * 0.57) 
+		display          : inline-block
+		width            : fwicons-sprite-width(cf-checkbox)
+		height           : $checkradio-height
+		position         : relative 
+		top              : 2px  
+		&.radio
+			+fwicons-sprite(cf-radio,false)
+			&.checked
+				+fwicons-sprite(cf-radio-checked,false)
+				
+		&.checkbox
+			+fwicons-sprite(cf-checkbox,false)
+			&.checked
+				+fwicons-sprite(cf-checkbox-checked,false)
+	div.custom
+		&.dropdown 
+			display       : block
+			position      : relative
+			width         : auto
+			height        : fwicons-sprite-height(cf-dropdown) + 2
+			margin-top    : 2px
+			margin-bottom : 9px
+			background    : $background
+			z-index: 30
+			a.current
+				display     : block
+				width       : auto
+				min-height  : fwicons-sprite-height(cf-dropdown)
+				line-height : fwicons-sprite-height(cf-dropdown)
+				padding     : 0 (fwicons-sprite-width(cf-dropdown) + 4px) 0 6px
+				border      : solid 1px $border-color
+				color       : $current-text
+			a.selector
+				+fwicons-sprite(cf-dropdown)
+				position      : absolute
+				height        : fwicons-sprite-height(cf-dropdown)
+				width         : fwicons-sprite-width(cf-dropdown)
+				display       : block
+				right         : 0 
+				top           : 0
+				border        : solid 1px $border-color
+			ul
+				position   : absolute
+				width      : auto
+				display    : none
+				margin     : 0
+				left       : 0
+				top        : fwicons-sprite-height(cf-dropdown)
+				margin     : 0
+				padding    : 0 
+				background : rgba(255,255,255,0.9) 
+				border     : solid 1px $border-color
+				z-index    : 10
+				@if $shadow != false
+					+box-shadow(0 3px 5px rgba(0,0,0,0.3))
+				&.show
+					display: block
+				li
+					cursor      : pointer
+					padding     : 0px 6px 0px (fwicons-sprite-width(cf-selected)) 
+					margin      : 0
+					white-space : nowrap
+					background  : $dropdown
+					color       : $current-text
+					line-height : fwicons-sprite-height(cf-selected)
+					&.selected
+						+fwicons-sprite(cf-selected)
+						width: auto
+						color            : $selected-text
+						background-color : $selected-bg
+						&:hover
+							+fwicons-sprite(cf-selected-hover)
+							width            : auto
+							background-color : $hover-bg
+							color            : $hover-text
+					&:hover
+						background-color : $hover-bg
+						color            : $hover-text
+			&:hover
+				a.selector
+					+fwicons-sprite(cf-dropdown-hover)
+
+			&.open
+				ul
+					display: block
+					z-index: 10
+				a.selector 
+					+fwicons-sprite(cf-dropdown-hover)
+
+			&.small   
+				width: 134px !important
+			&.medium  
+				width: 254px !important
+			&.large   
+				width: 434px !important
+			&.expand  
+				width: 100% !important
+			&.open.small  ul 
+				width: 132px !important
+			&.open.medium ul 
+				width: 252px !important
+			&.open.large  ul 
+				width: 432px !important
+			&.open.expand ul 
+				width: 100% !important
+				box-sizing: border-box
+
+	.custom.disabled
+		background-color: #ddd
+
+	@if $radius > 0
+		$radius : $radius + 0px
+		div.custom.dropdown
+			+border-radius($radius $radius 0 0)
+			a.current
+				+border-radius($radius $radius 0 0)
+			a.selector
+				height       : fwicons-sprite-height(cf-dropdown)
+				border-width : 0 0 0 1px
+			ul
+				+border-bottom-right-radius($radius)
+				+border-bottom-left-radius($radius)
+				li:last-child
+					+border-bottom-left-radius($radius)
+					+border-bottom-right-radius($radius)
+			

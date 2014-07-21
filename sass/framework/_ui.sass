@@ -1,0 +1,846 @@
+// Alerts
+@mixin alert-box($radius: 0, $font-size: $body-font-size, $init: true)
+	.alert-box
+		font-size: $font-size - 1px
+		
+		@if $radius > 0
+			$radius: $radius + 0px
+			+border-radius($radius)
+		display       : block
+		padding       : 6px 7px
+		font-weight   : bold
+		@if $white and $init
+			background: $white
+		@else 
+			background    : #eee
+		margin-bottom : 12px
+		position      : relative
+		color         : #6E6E6E
+		border        : 1px solid #ccc
+		border        : 1px solid rgba(0,0,0,0.1)
+		text-shadow   : 0 1px rgba(255,255,255,0.9)
+		+text-shadow(0 -1px 1px #fff)
+		&.success
+			@if $green and $init
+				background-color: $green
+			@else
+				background-color: #7fae00
+			color: #fff
+			text-shadow: 0 1px 1px rgba(0,0,0,0.5)
+		&.warning
+			@if $green and $init 
+				background-color: $orange
+			@else
+				background-color: #c08c00
+			color: #fff
+			text-shadow: 0 1px 1px rgba(0,0,0,0.5)
+		&.error
+			@if $red and $init
+				background-color: $red
+			@else
+				background-color: #c00000
+			color: #fff
+			text-shadow: 0 1px 1px rgba(0,0,0,0.5)
+		a.close
+			+opacity(0.2)
+			color     : #000
+			position  : absolute
+			right     : 4px
+			top       : 0
+			font-size : 18px
+			padding   : 4px
+			&:hover, &:focus
+				+opacity(0.4)
+
+// Message Box
+@mixin message-box($radius: 0, $font-size: $body-font-size, $init: true)
+	.message-box
+		font-size: $font-size - 1px
+		@if $radius > 0
+			$radius: $radius + 0px
+			+border-radius($radius)
+		display       : block
+		padding       : 6px 7px
+		background    : $white
+		background    : rgba($white,0.4)
+		margin-bottom : 12px
+		position      : relative
+		color         : darken($white,50)
+		border        : 1px solid #ccc
+		border        : 1px solid rgba(0,0,0,0.1)
+		text-shadow   : 0 1px rgba(255,255,255,0.5)
+		&.inset
+			+box-shadow(inset 0 1px 3px rgba(0,0,0,0.3), 0 1px 1px rgba(255,255,255,0.7))
+		&.dropshadow
+			+box-shadow(0 2px 3px rgba(0,0,0,0.3))
+		
+		@if $blue != false
+			&.blue
+				background : lighten($blue,20)
+				background : rgba($blue,0.4)
+				color      : darken($blue,20)
+
+		@if $blue != false
+			&.red
+				background : lighten($red,20)
+				background : rgba($red,0.4)
+				color      : darken($red,20)
+
+		@if $blue != false
+			&.orange
+				background : lighten($orange,20)
+				background : rgba($orange,0.4)
+				color      : darken($orange,20)
+
+		@if $blue != false
+			&.yellow
+				background  : lighten($yellow,20)
+				background  : rgba($yellow,0.4)
+				color       : darken($yellow,21)
+				text-shadow : 0 1px rgba(255,255,255,0.7)
+
+		@if $blue != false
+			&.green
+				background : lighten($green,20)
+				background : rgba($green,0.4)
+				color      : darken($green,20)
+
+		@if $blue != false
+			&.black
+				background  : lighten($black,20)
+				background  : rgba($black,0.4)
+				color       : lighten($black,90)
+				text-shadow : 0 1px rgba(0,0,0,0.3)
+
+@mixin labels
+	// Labels
+	.label
+		font-size       : $body-font-size - 3px
+		padding         : 0px 4px 2px
+		text-align      : center
+		text-decoration : none
+		line-height     : 1
+		white-space     : nowrap
+		display         : inline
+		position        : relative
+		bottom          : 1px
+		color           : $white
+		background      : $default-color
+		&.radius
+			+border-radius(2px)
+		&.round
+			padding: 1px 7px 2px
+			+border-radius(8px)
+		// Colors
+		@if $blue != false
+			&.blue
+				background-color: $blue
+		@if $red != false
+			&.red
+				background-color: $red
+		@if $green != false
+			&.green
+				background-color: $green
+		@if $white != false
+			&.white
+				background-color: $white
+				color: #333 
+		@if $black != false
+			&.black
+				background-color: $black
+		@if $orange != false
+			&.orange
+				background-color: $orange
+		@if $yellow != false
+			&.yellow
+				background-color: $yellow
+		&.big
+			font-size: $body-font-size + 0px
+		&.bold
+			font-weight: bold
+
+// TABS
+@mixin tabs-vertical
+	dl.tabs.vertical
+		height: auto
+	dl.tabs.vertical dt, dl.tabs.vertical dd, dl.nice.tabs.vertical dt, dl.nice.tabs.vertical dd
+		float: none
+		height: auto
+	dl.tabs.vertical dd a
+		display      : block
+		width        : auto
+		height       : auto
+		padding      : 15px 20px
+		line-height  : 1
+		border       : solid 0 #ccc
+		border-width : 1px 1px 0
+		margin       : 0
+		color        : #555
+		background   : #eee
+		font-size: $body-font-size + 1px
+		&.active
+			height       : auto
+			margin       : 0
+			border-width : 1px 0 0
+			background   : $default-color  
+
+	// Nice tabs vertical
+	.nice.tabs.vertical
+		border-bottom : solid 1px #eee
+		height        : auto
+		dd
+			a
+				padding      : 15px 20px
+				background   : $white
+				border       : none
+				border-left  : 1px solid #eee
+				border-right : 1px solid #eee
+				border-top   : 1px solid #eee
+				&.active
+					border     : none
+					background : $default-color 
+					color      : $white
+					margin     : 0
+					position   : static
+					top        : 0
+					height     : auto
+			&:first-child
+				margin-left: 0
+	dl.tabs.vertical
+		height: auto
+		dt, dd, dt
+			float  : none
+			height : auto
+	dl.nice.tabs.vertical
+		dd
+			float  : none
+			height : auto
+
+@mixin tabs-horizontal($tabcolor: #eee, $tabcolor-active: #fff)
+	dl.tabs
+		display       : block
+		margin        : 0 0 20px 0
+		padding       : 0
+		height        : 30px
+		border-bottom : solid 1px #ddd
+		dt
+			font-size: $body-font-size - 2px
+			display        : block
+			width          : auto
+			height         : 30px
+			padding        : 0 9px 0 20px
+			line-height    : 30px
+			float          : left
+			color          : #999
+			text-transform : uppercase
+			cursor         : default
+			&:first-child
+				padding: 0 9px 0 0
+		dd
+			display : block
+			width   : auto
+			height  : 30px
+			padding : 0
+			float   : left
+			a
+				display     : block
+				width       : auto
+				height      : 29px
+				padding     : 0 9px
+				line-height : 30px
+				border      : solid 1px #ddd
+				margin      : 0 -1px 0 0
+				color       : #555
+				background  : $tabcolor
+				&.active
+					background   : $tabcolor-active
+					border-width : 1px 1px 0 1px
+					height       : 30px
+
+	.nice
+		&.tabs
+			border-bottom : solid 1px #eee
+			margin        : 0 0 30px
+			height        : 42px
+			dd
+				a
+					font-size: $body-font-size + 1px
+					padding    : 7px 18px 9px
+					color      : #555
+					background : none
+					border     : none
+					&.active
+						font-weight  : bold
+						color        : #333
+						background   : $tabcolor-active
+						border-left  : 1px solid #eee
+						border-right : 1px solid #eee
+						border-top   : 1px solid #00a6fc
+						margin       : 0 10px
+						position     : relative
+						top          : -5px
+				&:first-child
+					a.active
+						margin-left: 0
+			&.no-margin
+				margin: 0
+
+	ul.tabs-content
+		margin  : 0 0 15px 0
+		display : block
+		&>li
+			display: none
+			&.active
+				display: block
+				
+	dl.contained, dl.nice.contained
+		margin-bottom: 0
+	dl.contained.tabs dd a
+		padding: 0 14px
+	dl.nice.contained.tabs dd a
+		padding: 7px 18px 9px
+		
+	ul.contained.tabs-content
+		padding: 0
+		&>li
+			padding      : 20px
+			border       : solid 0 #ddd
+			border-width : 0 1px 1px 1px
+			background   : $tabcolor-active
+	ul.nice.contained.tabs-content
+		&>li
+			border-color: #eee
+	
+// Pagination
+@mixin pagination
+	ul.pagination
+		display     : block
+		height      : 40px
+		margin-left : -5px
+		@extend .clearfix
+		li
+			font-size: $body-font-size + 0px
+			float       : left
+			display     : block
+			height      : 24px
+			color       : #999
+			margin-left : 5px
+			a
+				display : block
+				padding : 6px 7px 4px
+				color   : #555
+			&.current, &:hover, &:focus
+				a
+					border-bottom : solid 2px #00a6fc
+					color         : #141414
+			&.unavailable
+				a
+					cursor : default
+					color  : #999
+				&:hover, &:focus
+					a
+						border-bottom: none
+
+
+// Pagination
+@mixin pagination-nice($border: false, $bg-normal : #efefef, $bg-hover: $default-color, $text-color: #555 ,$hover-text: #fff)
+	ul.pagination-nice
+		display     : block
+		height      : 40px
+		@extend .clearfix
+		li
+			font-size     : $body-font-size + 0px
+			float         : left
+			display       : block
+			color         : #999
+			margin-bottom : 0
+			@if $bg-normal != false
+				background: $bg-normal
+			@if $border != false
+				border-top    : 1px solid $border
+				border-bottom : 1px solid $border
+				border-left   : 1px solid $border
+				&:last-child
+					border-right  : 1px solid $border
+			&:first-child
+				+border-radius(5px 0 0 5px)
+			&:last-child
+				+border-radius(0 5px 5px 0)
+			a
+				display : block
+				color   : $text-color
+				padding : 6px 9px 4px
+			&.current, &:hover, &:focus
+				background: $bg-hover
+				a
+					color         : $hover-text
+			&.unavailable
+				background: $bg-normal
+				a
+					cursor : default
+					color  : #bbb
+
+// Breadcrumb
+@mixin breadcrumb($indicator : "\00bb",$size: $body-font-size, $color: #aaa, $top: 0)
+	.breadcrumb
+		list-style    : none
+		margin-bottom : 15px
+		@extend .clearfix
+		
+		li
+			margin-bottom : 0
+			float         : left
+			padding-right : 18px
+			position      : relative
+
+			&.active
+				a
+					color: lighten($body-color,10)
+					&:hover
+						color: lighten($body-color,10)
+
+			a
+				font-size: $body-font-size - 1px
+
+			&:before
+				content   : $indicator
+				position  : absolute
+				left      : -14px
+				top       : $top + 0px
+				color     : $color
+				font-size : $size + 0px
+				
+			&:first-child
+				&:before
+					content: ""
+
+			@if $support-lt-ie8 == true
+				& > ieb
+					content   : $indicator
+					position  : absolute
+					left      : -14px 
+					top       : $top + 0px
+					color     : $color
+					font-size : $size + 0px
+				&:first-child
+					ieb
+						display: none
+
+// Nicelists
+@mixin nicelist($sign: \00a2, $color: $body-color, $size: $body-font-size, $top: 0, $left: 0, $padding: 15)
+	li
+		padding-left : $padding + 0px
+		position     : relative
+		&:before
+			content     : quote($sign)
+			font-family : kick-icons
+			position    : absolute
+			left        : $left + 0px
+			top         : $top + 0px
+			font-size   : $size + 0px
+			color       : $color
+
+		ul
+			margin-bottom: 0
+
+		&.fork
+			&:before
+				content: ''
+				
+		@if $support-lt-ie8 == true
+			& > ieb
+				content     : quote($sign)
+				font-family : kickstarter
+				position    : absolute
+				left        : $left + 0px
+				top         : $top - 3px
+				font-size   : $size + 0px
+				color       : $color
+			&.fork 
+				& > ieb
+					display: none
+				.lt-ie8 &
+					margin-top: 0 - ( $body-font-size + 3px)
+
+	&.shadow
+		li
+			&:before
+				+text-shadow(0 -1px 1px rgba(0,0,0,0.7), 0 1px 1px rgba(255,255,255,0.6) )
+
+// Blockquotes Extended
+@mixin blockquotes
+	blockquote
+		border-left   : 5px solid lighten($body-color,5)
+		padding       : 0 0 0 15px
+		margin-bottom : 10px
+		p
+			font-size     : $body-font-size + 2px
+			margin-bottom : 0
+			color         : lighten($body-color,5)
+			line-height   : ($body-font-size + 2) * 1.2 + 0px
+		cite
+			font-size   : $body-font-size - 3px
+			color       : lighten($body-color,15)
+			line-height : ($body-font-size - 3) * 1.4 + 0px
+			margin-top  : 5px
+			&:before
+				content : '\2014 \0020'
+		&.push
+			float   : left
+			padding : 0 15px 0 15px
+			width   : 200px
+			margin  : 0 15px 10px 0 
+			&.small
+				width : 150px
+			&.medium  
+				width : 300px
+			&.large
+				width : 400px
+		&.right-pull
+			text-align   : right
+			border-left  : none
+			border-right : 5px solid lighten($body-color,5)
+			padding      : 0 15px 0 0
+			cite
+				&:before
+					content : ''
+				&:after
+					content : '\0020 \2014'
+			&.push
+				float : right
+				margin: 0 0 10px 15px
+
+// Panels
+@mixin panels
+	+box-shadow(0 2px 5px rgba(0,0,0,0.15))
+	padding : 20px 20px 2px 20px
+	margin  : 0 0 20px 0
+
+	&.white
+		background-color : #efefef
+		+background-image(linear-gradient(#ffffff 0%, #f4f4f4 100%))
+		&.border
+			border: 1px solid #bababa
+
+	&.black
+		background-color: #2b2b2b 
+		+background-image(linear-gradient(#000000 0%, #383838 100%))
+		color: #cecece
+		&.border
+			border: 1px solid #fff
+
+	&.radius
+		+border-radius(3px)
+
+	&.round
+		+border-radius(8px)
+
+	&.no-padding
+		padding: 0
+ 
+// Nav Bar with Dropdowns
+@mixin navigation-bar($nbar-height: 45, $nbar-bg: #fff, $nbar-bg-hover: false, $nbar-radius: 0, $nbar-link: $default-color, $nbar-link-hover: $hovercolor, $nbar-style: false, $flyout-bg: $nbar-bg, $flyout-radius: 0,$border-color: #ddd)
+	.nav-bar
+		height     : $nbar-height + 0px
+		background : $nbar-bg
+		margin-top : 20px
+		border     : 1px solid $border-color
+		position   : relative
+		z-index    : 900
+		@if $nbar-radius > 0
+			$nbar-radius: $nbar-radius + 0px
+			+border-radius($nbar-radius)
+
+		@if $nbar-style == glossy
+			+background-image(linear-gradient(rgba(#fff, 0.2) 0%, rgba(#fff, 0.2) 50%, rgba(#000, 0) 51%, rgba(#000, 0) 100%))
+
+		@else if $nbar-style == soft
+			+background-image(linear-gradient(rgba(#fff, 0.4) 0%, rgba(#000, 0) 310%))
+
+		&>li
+			float       : left
+			display     : block
+			position    : relative
+			padding     : 0
+			margin      : 0
+			line-height : $nbar-height + 0px
+
+			@if $nbar-style == glossy
+				@if $nbar-radius > 0
+					$nbar-radius: $nbar-radius + 0px
+					&:first-child
+						+border-radius($nbar-radius 0 0 $nbar-radius)
+				background : $nbar-bg
+				+background-image(linear-gradient(rgba(#fff, 0.2) 0%, rgba(#fff, 0.2) 50%, rgba(#000, 0) 51%, rgba(#000, 0) 100%))
+
+			@else if $nbar-style == soft
+				@if $nbar-radius > 0
+					$nbar-radius: $nbar-radius + 0px
+					&:first-child
+						+border-radius($nbar-radius 0 0 $nbar-radius)
+				background : $nbar-bg
+				+background-image(linear-gradient(rgba(#fff, 0.4) 0%, rgba(#000, 0) 310%))
+
+			.flyout
+				display: none
+
+			&>a.main
+				font-size       : $body-font-size + 0px
+				position        : relative
+				padding         : 0 20px
+				display         : block
+				text-decoration : none
+				color           : $nbar-link
+				border-right    : 1px solid $border-color
+
+			&>input
+				margin: 0
+
+			&>form
+				margin: 0
+				input
+					margin: 0
+
+			ul
+				margin-bottom: 0
+
+			li
+				line-height: 1.3
+
+			&:hover, &.active
+				@if $nbar-bg-hover 
+					background: $nbar-bg-hover
+					
+					@if $nbar-style == glossy
+						+background-image(linear-gradient(rgba(#fff, 0.2) 0%, rgba(#fff, 0.2) 50%, rgba(#000, 0) 51%, rgba(#000, 0) 100%))
+
+					@else if $nbar-style == soft
+						+background-image(linear-gradient(rgba(#fff, 0.4) 0%, rgba(#000, 0) 310%))
+
+				&>a.main
+					color   : $nbar-link-hover
+					z-index : 2
+
+					&:after
+						border-top-color: #141414
+
+			&.insert-field
+				border-right : 1px solid $border-color
+				padding      : 0 16px !important
+
+				&:hover
+					background: none !important
+
+			&:hover
+				.flyout
+					display: block
+
+			&.active
+				&.has-flyout
+					&>a.main
+						&:after
+							border-top   : 4px solid $nbar-link-hover
+							
+			&.has-flyout
+				position : relative
+				z-index  : 800
+				&>a.main
+					padding-right: 36px
+
+					&:after
+						content      : ''
+						width        : 0
+						height       : 0 
+						border-left  : 4px solid transparent
+						border-right : 4px solid transparent
+						border-top   : 4px solid $nbar-link
+						display      : block
+						position     : absolute
+						right        : 18px
+						top          : 45%
+
+					&:hover
+						&:after
+							border-top   : 4px solid $nbar-link-hover
+
+				&>a.flyout-toggle
+					display: none
+						
+	.flyout
+		background : $flyout-bg
+		margin     : 0 
+		padding    : 20px
+		border     : 1px solid $border-color
+		position   : absolute
+		top        : $nbar-height + 0px
+		left       : -1px
+		width      : 400px
+		z-index    : 10
+
+		@if $flyout-radius > 0
+			$flyout-radius : $flyout-radius + 0px
+			+border-radius(0 0 $flyout-radius $flyout-radius)
+
+		&.small
+			width: 200px
+
+		&.large
+			width: 600px
+
+		&.right
+			left: auto
+			right: 0
+
+		&.full
+			padding: 0
+
+		p:last-child
+			margin-bottom: 0
+
+
+// Sub Navs
+@mixin subnav($orient: left, $term-color: #999, $radius: 2, $active-bg: $default-color, $active-color: #fff)
+	dl.subnav
+		width       : auto
+		overflow    : hidden
+		margin      : -4px 0 18px -9px
+		padding-top : 4px
+
+		@if $orient == right
+			float: right
+
+		@if $orient == center
+			+inlineblock
+
+		@else 
+			display     : block
+
+		dt, dd
+			float         : left
+			display       : inline
+			margin-left   : 9px
+			margin-bottom : 4px
+
+		dt
+			color: $term-color
+			font-weight: normal
+
+		dd
+			a
+				text-decoration: none
+
+				@if $radius > 0
+					$radius: $radius + 0px
+					+border-radius($radius)
+
+			&.active
+				a
+					background : $active-bg
+					color      : $active-color
+					padding    : 3px 9px
+
+
+// Tooltips
+@mixin tooltip($style: dark)
+	.has-tip
+		border-bottom : dotted 1px #ccc
+		cursor        : help
+		color         : $default-color
+
+		&:hover
+			border-bottom : dotted 1px #0593dc
+			color         : darken($default-color,20)
+
+		&.opened
+			color         : darken($default-color,20) !important
+			border-bottom : dotted 1px #0593DC !important
+
+		&.left, &.right
+			float: none !important
+
+	.tooltip
+		font-size: $body-font-size - 3px
+		display     : block
+		position    : absolute
+		width       : auto
+		padding     : 5px 9px 7px 8px
+		z-index     : 999
+
+		@if $style == bright
+			background  : rgb(255,255,255)
+			background  : rgba(255,255,255,0.85)
+			color       : #999 
+
+		@else
+			background  : rgb(0,0,0)
+			background  : rgba(0,0,0,0.85)
+			color       : #eee
+			
+		&>.nub
+			display      : block
+			width        : 0
+			height       : 0
+			border       : solid 6px
+			position     : absolute
+			top          : -12px
+			left         : 10px
+
+			@if $style == bright
+				border-color : transparent transparent rgb(255,255,255) transparent
+				border-color : transparent transparent rgba(255,255,255,0.85) transparent
+
+			@else
+				border-color : transparent transparent rgb(0,0,0) transparent
+				border-color : transparent transparent rgba(0,0,0,0.85) transparent
+
+		&.top>.nub
+			top          : auto
+			bottom       : -12px
+
+			@if $style == bright
+				border-color : rgb(255,255,255) transparent transparent transparent
+				border-color : rgba(255,255,255,0.85) transparent transparent transparent
+
+			@else
+				border-color : rgb(0,0,0) transparent transparent transparent
+				border-color : rgba(0,0,0,0.85) transparent transparent transparent
+				
+		&.left, .right, .left, .right
+			float: none !important
+
+		&.left>.nub
+			right        : -12px
+			left         : auto
+
+			@if $style == bright
+				border-color : transparent transparent transparent rgb(255,255,255)
+				border-color : transparent transparent transparent rgba(255,255,255,0.85)
+
+			@else
+				border-color : transparent transparent transparent rgb(0,0,0)
+				border-color : transparent transparent transparent rgba(0,0,0,0.85)
+
+		&.right>.nub
+			right        : auto
+			left         : -12px
+
+			@if $style == bright or b
+				border-color : transparent rgb(0,0,0) transparent transparent
+				border-color : transparent rgba(0,0,0,0.85) transparent transparent
+			@else
+
+				border-color : transparent rgb(0,0,0) transparent transparent
+				border-color : transparent rgba(0,0,0,0.85) transparent transparent
+
+		&.radius
+			+border-radius(4px)
+
+		&.round
+			+border-radius(8px)
+
+	.tap-to-close
+		display     : block
+		font-size   : 10px
+		color       : #999
+		font-weight : normal
+

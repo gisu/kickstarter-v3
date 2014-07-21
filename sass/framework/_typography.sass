@@ -1,0 +1,114 @@
+// Typography
+@if $h1-size == none or $h6-size == none
+	#{headings(all)}
+		font-weight : bold
+		line-height : 1.25
+		@if $head-font-family != none
+			font-family: $head-font-family
+		small
+			color: #777
+		a
+			font-weight: inherit
+	h1
+		font-size: 46px
+		margin-bottom: 12px
+	h2
+		font-size: 35px
+		margin-bottom: 9px
+	h3
+		font-size: 28px
+		margin-bottom: 9px
+	h4
+		font-size: 21px
+		margin-bottom: 3px
+	h5
+		font-size: 18px
+		margin-bottom : 3px
+		font-weight   : normal
+	h6
+		font-size: 15px
+		font-weight: normal
+
+@else
+
+	#{headings(all)}
+		margin      : 0
+		position    : relative
+		font-weight : 200
+		@if $head-font-family != none
+			font-family : $head-font-family
+		a
+			font-weight : inherit
+		small
+			color : #777
+	
+	$headstepping: floor(($h1-size - $h6-size) / 5)
+
+	@for $i from 1 through 5
+		h#{$i}
+			font-size     : #{$h1-size - ($headstepping * ($i - 1))}px
+			line-height   : #{ceil(($h1-size - ($headstepping * ($i - 1))) * $lineheight-factor)}px
+			margin-bottom : #{floor(($h6-size / $i))}px
+
+	h6 
+		font-size   : #{$h6-size}px
+		line-height : unquote((ceil($h6-size * $lineheight-factor)) + "px")
+
+.subheader
+	color         : #777
+	font-weight   : 300
+	margin-bottom : 24px
+
+p
+	line-height : $body-line-height + 0px
+	margin      : 0 0 18px
+	img
+		margin : 0
+	&.lead
+		font-size: $body-font-size + 4px
+		line-height : $body-line-height + 0px
+
+em, i
+	font-style  : italic
+	line-height : inherit
+strong, b
+	font-weight : bold
+	line-height : inherit
+small
+	font-size   : 60%
+	line-height : inherit
+
+// Blockquotes
+blockquote
+	line-height : 20px
+	color       : #777
+	margin      : 0 0 18px
+	padding     : 9px 20px 1px 19px
+
+	p
+		line-height   : 20px
+		color         : #777
+		margin-bottom : 0
+	cite
+		font-size: $body-font-size - 3px
+		display : block
+		color   : #555
+		a, a:visited
+			color: #555
+
+hr
+	border       : solid #ddd
+	border-width : 1px 0 0
+	clear        : both
+	margin       : 12px 0 18px
+	height       : 0
+
+abbr, acronym
+	text-transform : uppercase
+	font-size      : 90%
+	color          : #222
+	border-bottom  : 1px solid #ddd
+	cursor         : help
+abbr
+	text-transform : none
+

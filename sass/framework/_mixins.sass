@@ -1,0 +1,835 @@
+// Compass imports
+
+@import compass/css3
+@import compass/utilities
+
+// WebKit font-smoothing
+@mixin font-smoothing($value: antialiased)
+	-webkit-font-smoothing: $value
+	text-rendering: optimizeLegibility
+
+@mixin boxsizing($url: 'js')
+	+box-sizing(border-box)
+	@if $support-lt-ie7	== true
+		.lt-ie8 &
+			behavior: url(#{$url}/boxsizing.htc)
+// @mixin cleartext
+// 	text-indent : 100%
+// 	white-space : nowrap
+// 	overflow    : hidden
+
+// @mixin inlineblock
+// 	display: inline-block
+// 	.lt-ie8 &
+// 		display        : inline
+// 		zoom           : 1
+// 		vertical-align : auto
+
+// Image Inserter
+@mixin image-insert($name, $format: png, $repeat: no, $replace: true, $dimensions: true, $pos: top left)
+	$img              : #{$name}#{'.'}$format
+
+	@if $replace == true
+		+cleartext
+
+	@if $repeat == no-repeat or $repeat == no
+		background : image-url($img) no-repeat $pos
+		@if $dimensions == true
+			height     : image-height($img)
+			width      : image-width($img)
+			display	   : block
+
+	@else if $repeat == repeat-x or $repeat == x
+		background : image-url($img) repeat-x $pos
+		@if $dimensions == true
+			height     : image-height($img)
+
+	@else if $repeat == repeat-y or $repeat == y
+		background : image-url($img) repeat-y $pos
+		@if $dimensions == true
+			width      : image-width($img)
+
+	@else if $repeat == repeat or $repeat == r
+		background : image-url($img) $pos
+
+
+// Removes any text from an element and replace with an Spriteimage
+@mixin sprite-replace($name, $spritebase: framework, $dimensions: true)
+	+cleartext
+	background-repeat : no-repeat
+	display           : block
+
+	@if $spritebase == framework
+		@if $dimensions == true
+			+fwicons-sprite($name,true)
+		@else
+			+fwicons-sprite($name,false)
+
+	@if $spritebase == solo
+		@if $dimensions == true
+			+sprite_s-sprite($name,true)
+			display : block
+		@else
+			+sprite_s-sprite($name,false)
+
+	@if $spritebase == repeat
+		@if $dimensions == true
+			+sprite_r-sprite($name,true)
+			display : block
+		@else
+			+sprite_r-sprite($name,false)
+
+// // Shorthand to get the Imagesize
+// @mixin imagesize($name, $format: png)
+// 	$img   : #{$name}#{'.'}$format
+// 	height : image-height($img)
+// 	width  : image-width($img)
+
+// Spriteposition Helper Mixin 
+@mixin sprite-position($name, $spritebase: framework, $elementsize:0 0, $margin: 0, $pos: lm)
+
+	$sprite-height         : 0 !default
+	$sprite-width          : 0 !default
+	
+	$reOffset-y            : 0 !default
+	$reOffset-x            : 0 !default
+	
+	$box-width             : nth($elementsize,1) + 0px
+	$box-height            : nth($elementsize,2) + 0px
+	
+	$horizontal-center-box : $box-height / 2
+	$vertical-center-box   : $box-width / 2
+	
+	$margin-v              : 0 !default
+	$margin-h              : 0 !default
+	
+	@if length($margin) == 2
+		$margin-v              : nth($margin,1)
+		$margin-h              : nth($margin,2)
+
+	@if length($margin) == 1
+		$margin-v              : $margin
+		$margin-h              : $margin
+
+
+	@if $spritebase == framework
+		$sprite-height : fwicons-sprite-height($name)
+		$sprite-width  : fwicons-sprite-width($name)
+
+		$sprite-height-center: $sprite-height / 2
+		$sprite-width-center : $sprite-width / 2
+
+		@if $pos == lm or $pos == leftmiddle
+			$reOffset-y : $horizontal-center-box - $sprite-height-center
+			$reOffset-x : $margin-h
+
+		@if $pos == lt or $pos == lefttop
+			$reOffset-y : $margin-v
+			$reOffset-x : $margin-h
+
+		@if $pos == lb or $pos == leftbottom
+			$reOffset-y : $box-height - $sprite-height - $margin-v
+			$reOffset-x : $margin-h
+
+		@if $pos == rm or $pos == rightmiddle
+			$reOffset-y : $horizontal-center-box - $sprite-height-center
+			$reOffset-x : $box-width - $sprite-width - $margin-h
+
+		@if $pos == rt or $pos == righttop
+			$reOffset-y : $margin-v
+			$reOffset-x : $box-width - $sprite-width - $margin-h
+
+		@if $pos == rb or $pos == rightbottom
+			$reOffset-y : $box-height - $sprite-height - $margin-v
+			$reOffset-x : $box-width - $sprite-width - $margin-h
+
+		@if $pos == mc or $pos == middlecenter
+			$reOffset-y : $horizontal-center-box - $sprite-height-center - $margin-v
+			$reOffset-x : $vertical-center-box - $sprite-width-center - $margin-h
+
+		@if $pos == mt or $pos == middletop
+			$reOffset-y : $margin-v
+			$reOffset-x : $vertical-center-box - $sprite-width-center - $margin-h
+
+		@if $pos == mb or $pos == middlebottom
+			$reOffset-y : $box-height - $sprite-height - $margin-v
+			$reOffset-x : $vertical-center-box - $sprite-width-center - $margin-h
+	
+		+fwicons-sprite($name,false,$reOffset-x, $reOffset-y)
+
+	@if $spritebase == solo
+		$sprite-height : sprite_s-sprite-height($name)
+		$sprite-width  : sprite_s-sprite-width($name)
+
+		$sprite-height-center: $sprite-height / 2
+		$sprite-width-center : $sprite-width / 2
+
+		@if $pos == lm or $pos == leftmiddle
+			$reOffset-y : $horizontal-center-box - $sprite-height-center
+			$reOffset-x : $margin-h
+
+		@if $pos == lt or $pos == lefttop
+			$reOffset-y : $margin-v
+			$reOffset-x : $margin-h
+
+		@if $pos == lb or $pos == leftbottom
+			$reOffset-y : $box-height - $sprite-height - $margin-v
+			$reOffset-x : $margin-h
+
+		@if $pos == rm or $pos == rightmiddle
+			$reOffset-y : $horizontal-center-box - $sprite-height-center
+			$reOffset-x : $box-width - $sprite-width - $margin-h
+
+		@if $pos == rt or $pos == righttop
+			$reOffset-y : $margin-v
+			$reOffset-x : $box-width - $sprite-width - $margin-h
+
+		@if $pos == rb or $pos == rightbottom
+			$reOffset-y : $box-height - $sprite-height - $margin-v
+			$reOffset-x : $box-width - $sprite-width - $margin-h
+
+		@if $pos == mc or $pos == middlecenter
+			$reOffset-y : $horizontal-center-box - $sprite-height-center - $margin-v
+			$reOffset-x : $vertical-center-box - $sprite-width-center - $margin-h
+
+		@if $pos == mt or $pos == middletop
+			$reOffset-y : $margin-v
+			$reOffset-x : $vertical-center-box - $sprite-width-center - $margin-h
+
+		@if $pos == mb or $pos == middlebottom
+			$reOffset-y : $box-height - $sprite-height - $margin-v
+			$reOffset-x : $vertical-center-box - $sprite-width-center - $margin-h
+	
+		+sprite_s-sprite($name,false,$reOffset-x, $reOffset-y)
+
+	@if $spritebase == repeat
+		$sprite-height : sprite_r-sprite-height($name)
+		$sprite-width  : sprite_r-sprite-width($name)
+
+		$sprite-height-center: $sprite-height / 2
+		$sprite-width-center : $sprite-width / 2
+
+		@if $pos == lm or $pos == leftmiddle
+			$reOffset-y : $horizontal-center-box - $sprite-height-center
+			$reOffset-x : $margin-h
+
+		@if $pos == lt or $pos == lefttop
+			$reOffset-y : $margin-v
+			$reOffset-x : $margin-h
+
+		@if $pos == lb or $pos == leftbottom
+			$reOffset-y : $box-height - $sprite-height - $margin-v
+			$reOffset-x : $margin-h
+
+		@if $pos == rm or $pos == rightmiddle
+			$reOffset-y : $horizontal-center-box - $sprite-height-center
+			$reOffset-x : $box-width - $sprite-width - $margin-h
+
+		@if $pos == rt or $pos == righttop
+			$reOffset-y : $margin-v
+			$reOffset-x : $box-width - $sprite-width - $margin-h
+
+		@if $pos == rb or $pos == rightbottom
+			$reOffset-y : $box-height - $sprite-height - $margin-v
+			$reOffset-x : $box-width - $sprite-width - $margin-h
+
+		@if $pos == mc or $pos == middlecenter
+			$reOffset-y : $horizontal-center-box - $sprite-height-center - $margin-v
+			$reOffset-x : $vertical-center-box - $sprite-width-center - $margin-h
+
+		@if $pos == mt or $pos == middletop
+			$reOffset-y : $margin-v
+			$reOffset-x : $vertical-center-box - $sprite-width-center - $margin-h
+
+		@if $pos == mb or $pos == middlebottom
+			$reOffset-y : $box-height - $sprite-height - $margin-v
+			$reOffset-x : $vertical-center-box - $sprite-width-center - $margin-h
+	
+		+sprite_r-sprite($name,false,$reOffset-x, $reOffset-y)
+
+
+// Clipping Function for sprites
+@mixin spriteclip($name, $position: 0 0 0 0, $spritebase: framework, $ie7: false, $dimensions: true, $prefix: icon)
+	position: relative
+	@if $ie7 == false
+		&:before
+			content  : ''
+			position : absolute
+			display  : block
+			@if nth($position, 1) > 0 or nth($position, 1) < 0
+				top      : (nth($position, 1)) + 0px
+			@if nth($position, 2) > 0 or nth($position, 2) < 0
+				right    : (nth($position, 2)) + 0px
+			@if nth($position, 3) > 0 or nth($position, 3) < 0
+				bottom   : (nth($position, 3)) + 0px
+			@if nth($position, 4) > 0 or nth($position, 4) < 0
+				left     : (nth($position, 4)) + 0px
+			@if $spritebase == framework
+				@if $dimensions == true
+					+fwicons-sprite($name,true)
+				@else
+					+fwicons-sprite($name,false)
+			@if $spritebase == solo
+				@if $dimensions == true
+					+sprite_s-sprite($name,true)
+				@else
+					+sprite_s-sprite($name,false)
+			@if $spritebase == repeat
+				@if $dimensions == true
+					+sprite_r-sprite($name,true)
+				@else
+					+sprite_r-sprite($name,false)
+	@if $ie7 == true
+		span.#{$prefix}
+			position : absolute
+			display  : block
+			@if nth($position, 1) > 0 or nth($position, 1) < 0
+				top      : (nth($position, 1)) + 0px
+			@if nth($position, 2) > 0 or nth($position, 2) < 0
+				right    : (nth($position, 2)) + 0px
+			@if nth($position, 3) > 0 or nth($position, 3) < 0
+				bottom   : (nth($position, 3)) + 0px
+			@if nth($position, 4) > 0 or nth($position, 4) < 0
+				left     : (nth($position, 4)) + 0px
+			@if $spritebase == framework
+				@if $dimensions == true
+					+fwicons-sprite($name,true)
+				@else
+					+fwicons-sprite($name,false)
+			@if $spritebase == solo
+				@if $dimensions == true
+					+sprite_s-sprite($name,true)
+				@else
+					+sprite_s-sprite($name,false)
+			@if $spritebase == repeat
+				@if $dimensions == true
+					+sprite_r-sprite($name,true)
+				@else
+					+sprite_r-sprite($name,false)
+
+
+// // LAYOUT 
+// @mixin decollapse
+// 	padding-top : 1px
+// 	margin-top  : -1px
+
+// Quick Size Mixin
+// @mixin size($size)
+// 	@if length($size) == 2
+// 		$width  : nth($size,1)
+// 		$height : nth($size,2)
+
+// 		@if unitless($width)
+// 			$width: $width + 0px
+// 		@if unitless($height)
+// 			$height: $height + 0px
+
+// 		@if $width > 0
+// 			width: $width
+// 		@if $height > 0
+// 			height: $height
+
+// 	@if length($size) == 1
+// 		$width: $size
+// 		$height: $size
+
+// 		@if unitless($width)
+// 			$width: $width + 0px
+// 		@if unitless($height)
+// 			$height: $height + 0px
+
+// 		width: $width
+// 		height: $height
+
+// Position an element absolute or relative
+// +position(0 0 0 0);
+@mixin position($pos: 0 0 0 0, $mode: absolute)
+	@if $mode == relative or $mode == r
+		position: relative
+	@if $mode == absolute or $mode == a
+		position: absolute
+	@if $mode == fixed or $mode == f
+		position: fixed
+
+	@if nth($pos, 1) > 0 or nth($pos, 1) < 0
+		$position:  floor(nth($pos,1))
+		@if unitless($position)
+			top      : $position + 0px
+		@else 
+			top      : $position
+
+	@if nth($pos, 2) > 0 or nth($pos, 2) < 0
+		$position:  floor(nth($pos,2))
+		@if unitless($position)
+			right      : $position + 0px
+		@else 
+			right      : $position
+
+	@if nth($pos, 3) > 0 or nth($pos, 3) < 0
+	
+		$position:  floor(nth($pos,3)) 
+		@if unitless($position)
+			bottom      : $position + 0px
+		@else 
+			bottom      : $position
+
+	@if nth($pos, 4) > 0 or nth($pos, 4) < 0
+		$position:  floor(nth($pos,4)) 
+		@if unitless($position)
+			left      : $position + 0px
+		@else 
+			left      : $position
+
+// Moving a absolute positioned element in the middle
+@mixin absolute-middle($element: 0 0)
+	$width  : 0 !default
+	$height : 0 !default
+
+	@if length($element) == 2
+		$width: nth($element,1)
+		$height: nth($element,2)
+
+	@if length($element) == 1
+		$width: $element
+
+	@if unitless($width)
+		$width: $width + 0px
+	@if unitless($height)
+		$height: $height + 0px
+
+	position: absolute
+
+	@if $height > 0
+		top: 50%
+	left: 50%
+
+	@if $height > 0
+		margin-top: 0 - ($height / 2)
+	margin-left: 0 - ($width / 2)
+
+	@if $height > 0	
+		height: $height
+	width: $width 
+
+
+// Moving an Element in the Middle
+@mixin element-middle($container: 0, $element: 0)
+	margin: 0
+	padding: 0
+	$container-height : 0 !default
+	$container-width  : 0 !default
+	$element-height   : 0 !default
+	$element-width    : 0 !default
+
+	@if length($container) == 2
+		$container-width  : nth($container,1)
+		$container-height : nth($container,2)
+	@if length($container) == 1
+		$container-height : $container
+
+	@if length($element) == 2
+		$element-width  : nth($element,1)
+		$element-height : nth($element,2)
+	@if length($element) == 1
+		$element-height : $element
+
+	@if unitless($element-height)
+		$element-height: $element-height + 0px
+	@if unitless($element-width)
+		$element-width: $element-width + 0px
+	@if unitless($container-height)
+		$container-height : $container-height + 0px
+	@if unitless($container-width)
+		$container-width: $container-width + 0px
+
+	margin-top: ($container-height - $element-height) / 2
+
+	@if $element-width > 0
+		margin-left: ($container-width - $element-width) / 2
+		width: $element-width
+
+	height: $element-height
+
+@mixin getSprite($map, $sprite, $height: true, $width: true, $repeat: no-repeat)
+	$sprite-image    : sprite-file($map, $sprite) 
+	$sprite-map      : sprite-url($map)
+	$sprite-position : sprite-position($map, $sprite)
+	background       : $sprite-map $sprite-position $repeat
+	@if $height == true
+		$sprite-height : image-height($sprite-image)
+		height         : $sprite-height
+	@if $width == true
+		$sprite-width : image-width($sprite-image)
+		width         : $sprite-width
+
+@function getSpriteHeight($map, $sprite)
+	$sprite-map    : sprite-url($map)
+	$sprite-image  : sprite-file($map, $sprite) 
+	$sprite-height : image-height($sprite-image)
+	@return $sprite-height
+
+@function getSpriteWidth($map, $sprite)
+	$sprite-image : sprite-file($map, $sprite) 
+	$sprite-map   : sprite-url($map)
+	$sprite-width : image-width($sprite-image)
+	@return $sprite-width
+	
+// Boxpadding Recalculator - Recalculate the inner Height and Width with Padding
+@mixin boxrecalc($width: 0,$height: 0, $padding: 0 0 0 0, $border: 0 0 0 0, $margin: 0 0 0 0)
+
+	$pad-v : 0 !default
+	$pad-h : 0 !default
+	$mag-h : 0 !default
+	$mag-v : 0 !default
+	$bod-h : 0 !default
+	$bod-v : 0 !default
+
+	// Insert Padding
+	@if length($padding) == 4
+		$p-t : nth($padding,1) 
+		$p-r : nth($padding,2)
+		$p-b : nth($padding,3) 
+		$p-l : nth($padding,4)
+
+		@if $p-t > 0 
+			$p-t : $p-t + 0px
+		@if $p-r > 0
+			$p-r : $p-r + 0px
+		@if $p-b > 0
+			$p-b : $p-b + 0px
+		@if $p-l > 0
+			$p-l : $p-l + 0px
+
+		@if $p-t > 0 or $p-r > 0 or $p-b > 0 or $p-l > 0
+			padding: $p-t $p-r $p-b $p-l
+
+		$pad-h : $p-t + $p-b
+		$pad-v : $p-r + $p-l
+
+	@if length($padding) == 2
+		$p-v : nth($padding,1) 
+		$p-h : nth($padding,2) 
+
+		@if $p-v > 0
+			$p-v : $p-v + 0px
+		@if $p-h > 0
+			$p-h : $p-h + 0px
+
+		@if $p-v > 0 or $p-h > 0
+			padding: $p-v $p-h
+
+		$pad-h : $p-v * 2
+		$pad-v : $p-h * 2
+
+	@if length($padding) == 1
+
+		@if $padding > 0
+			$padding : $padding + 0px
+
+		$pad-h : $padding * 2
+		$pad-v : $padding * 2
+
+		@if $padding > 0
+			padding: $padding
+
+	// Insert Margin
+	@if length($margin) == 4
+		$m-t : nth($margin,1) 
+		$m-r : nth($margin,2)
+		$m-b : nth($margin,3) 
+		$m-l : nth($margin,4)
+
+		@if $m-t > 0 
+			$m-t : $m-t + 0px
+		@if $m-r > 0
+			$m-r : $m-r + 0px
+		@if $m-b > 0
+			$m-b : $m-b + 0px
+		@if $m-l > 0
+			$m-l : $m-l + 0px
+
+		@if $m-t > 0 or $m-r > 0 or $m-b > 0 or $m-l > 0
+			margin: $m-t $m-r $m-b $m-l
+
+		$mag-h : $m-t + $m-b
+		$mag-v : $m-l + $m-r
+
+	@if length($margin) == 2
+		$m-v : nth($margin,1) 
+		$m-h : nth($margin,2) 
+
+		@if $m-v > 0
+			$m-v : $m-v + 0px
+		@if $m-h > 0
+			$m-h : $m-h + 0px
+
+		@if $m-v > 0 or $m-h > 0
+			margin: $m-v $m-h
+
+		$mag-h : $m-v * 2
+		$mag-v : $m-h * 2
+
+	@if length($margin) == 1
+
+		@if $margin > 0
+			$margin : $margin + 0px
+
+		$mag-h : $margin * 2
+		$mag-v : $margin * 2
+
+		@if $margin > 0
+			margin: $margin
+
+	// Insert Border
+	@if length($border) == 4
+		$b-t : nth($border,1) 
+		$b-r : nth($border,2)
+		$b-b : nth($border,3) 
+		$b-l : nth($border,4)
+
+		@if $b-t > 0 
+			$b-t : $b-t + 0px
+		@if $b-r > 0
+			$b-r : $b-r + 0px
+		@if $b-b > 0
+			$b-b : $b-b + 0px
+		@if $b-l > 0
+			$b-l : $b-l + 0px
+
+		@if $b-t > 0 or $b-r > 0 or $b-b > 0 or $b-l > 0
+			border-width: $b-t $b-r $b-b $b-l
+
+		$bod-h : $b-t + $b-b
+		$bod-v : $b-r + $b-l
+
+	@if length($border) == 2
+		$b-v : nth($border,1) 
+		$b-h : nth($border,2) 
+
+		@if $b-v > 0
+			$b-v : $b-v + 0px
+		@if $b-h > 0
+			$b-h : $b-h + 0px
+
+		@if $b-v > 0 or $b-h > 0
+			border-width: $b-v $b-h
+
+		$bod-h : $b-v * 2
+		$bod-v : $b-h * 2
+
+	@if length($border) == 1
+
+		@if $border > 0
+			$border : $border + 0px
+
+		$bod-h : $border * 2
+		$bod-v : $border * 2
+
+		@if $border > 0
+			border-width: $border
+
+	@if $height > 0
+		height : $height - $pad-h - $mag-h - $bod-h + 0px
+	@if $width > 0
+		width  : $width - $pad-v - $mag-v - $bod-v + 0px
+
+// // Shorthand for align Height and Lineheight
+// @mixin height-align($height)
+// 	@if unitless($height)
+// 		$height: $height + px
+
+// 	line-height : $height
+// 	height      : $height
+
+// Better Fontface Mixin
+@mixin fontface($filename, $fontname: $filename, $fontweight: normal, $fontstyle: normal) 
+	// Standardfont
+	@font-face
+		font-family: $fontname
+		src: font_url(quote($filename)+'.eot')
+		src: font_url(quote($filename)+'.eot?#iefix') format('embedded-opentype'), font_url(quote($filename)+'.woff') format('woff'), font_url(quote($filename)+'.ttf') format('truetype'), font_url(quote($filename)+'.svg#' + $fontname) format('svg')
+		font-weight: $fontweight
+		font-style: $fontstyle
+
+// Better Fontface Mixin
+@mixin iconfont($filename, $fontname: $filename, $fontweight: normal, $fontstyle: normal) 
+	// Standardfont
+	@font-face
+		font-family: $fontname
+		src: font_url(quote(iconfonts/$filename)+'.eot')
+		src: font_url(quote(iconfonts/$filename)+'.eot?#iefix') format('embedded-opentype'), font_url(quote(iconfonts/$filename)+'.woff') format('woff'), font_url(quote(iconfonts/$filename)+'.ttf') format('truetype'), font_url(quote(iconfonts/$filename)+'.svg#' + $fontname) format('svg')
+		font-weight: $fontweight
+		font-style: $fontstyle
+
+// Color Calculator
+// $color = the Inputcolor
+// $angle = the colorangle
+// $mode = positiv Values lighten the Color, negative Values darken the Color, equal Zero make nothing
+// $vib = positiv Values saturate the Color, nagative Values desaturate the Color, equal Zero make nothing
+@function colorcalc($color, $angle: 0, $mode: 0, $vib: 0)
+
+	$inputcolor: adjust-hue($color, $angle)
+
+	// IF Mode heigher than 0 Lighten the Color
+	@if $mode > 0
+		// Secruity to Stop Errors
+		@if $mode > 100
+			$mode : 100
+
+		$outputcolor: lighten($inputcolor,$mode)
+		
+		// Vibrance Calculating
+		// If $vib heigher than 0 Saturate the Color
+		@if $vib > 0
+			@if $vib > 100
+				$vib : 100
+			
+			@return saturate($outputcolor, $vib)
+
+		// If $vib lower than 0 Desaturate the Color 
+		@if $vib < 0
+			$negvib : abs($vib)
+
+			@if $negvib > 100
+				$negvib : 100
+			
+			@return desaturate($outputcolor, $negvib)
+
+		// If $vib equal 0 return the outputcolor 
+		@if $vib == 0
+			@return $outputcolor
+
+	// IF $mode lower than 0 Darken the Color
+	@if $mode < 0
+		$negmode : abs($mode)
+		// Secruity to Stop Errors
+		@if $negmode > 100
+			$negmode : 100
+			
+		$outputcolor: darken($inputcolor,$negmode)
+		
+		// Vibrance Calculating
+		// If $vib heigher than 0 Saturate the Color
+		@if $vib > 0
+			@if $vib > 100
+				$vib : 100
+			
+			@return saturate($outputcolor, $vib)
+
+		// If $vib lower than 0 Desaturate the Color 
+		@if $vib < 0
+			$negvib : abs($vib)
+
+			@if $negvib > 100
+				$negvib : 100
+			
+			@return desaturate($outputcolor, $negvib)
+
+		// If $vib equal 0 return the outputcolor 
+		@if $vib == 0
+			@return $outputcolor
+
+	// IF $mode equal 0 
+	@if $mode == 0
+
+		$outputcolor : $inputcolor
+
+		// Vibrance Calculating
+		// If $vib heigher than 0 Saturate the Color
+		@if $vib > 0
+			@if $vib > 100
+				$vib : 100
+			
+			@return saturate($outputcolor, $vib)
+
+		// If $vib lower than 0 Desaturate the Color 
+		@if $vib < 0
+			$negvib : abs($vib)
+
+			@if $negvib > 100
+				$negvib : 100
+			
+			@return desaturate($outputcolor, $negvib)
+
+		// If $vib equal 0 return the outputcolor 
+		@if $vib == 0
+			@return $outputcolor
+
+// Gives a RGBA Fallback - $color = HEX Color
+@mixin rgba-back($color,$trans: 1, $coloring: back)
+	@if $coloring == back
+		background-color: $color
+		background-color: rgba($color,$trans)
+	@if $coloring == text
+		color: $color
+		color: rgba($color,$trans)
+
+// Media Querie Mixin for easy use
+@mixin breakpoint($media: tablet) 
+	$media-desktop   : $media-desktop + 0px
+	$media-phone     : $media-phone + 0px
+	$responsive      : $responsivebreakpoint + ($container-padding * 2) + 0px
+
+	@if $media == desktop-max 
+		@media only screen and (max-width: $media-desktop) 
+			@content
+
+	@if $media == desktop 
+		$responsive : $responsive + 1px
+		$media-desktop : $media-desktop - 1px
+		@media only screen and (min-width: $responsive) and (max-width: $media-desktop) 
+			@content
+
+	@if $media == desktop-min 
+		$responsive : $responsive + 1px
+		@media only screen and (min-width: $responsive) 
+			@content
+
+	@if $media == tablet-max
+		@media only screen and (max-width: $responsive) 
+			@content
+
+	@if $media == tablet 
+		$media-phone : $media-phone + 1px
+		$responsive: $responsive - 1px
+		@media only screen and (min-width: $media-phone) and (max-width: $responsive) 
+			@content
+
+	@if $media == tablet-min
+		$media-phone : $media-phone + 1px
+		@media only screen and (min-width: $media-phone)
+			@content
+
+	@if $media == phone-max 
+		$responsive: $responsive - 1px
+		@media only screen and (max-width: $responsive) 
+			@content
+
+	@if $media == phone
+		$media-phone : $media-phone + 1px
+		$responsive: $responsive - 1px
+		@media only screen and (min-width: $media-phone) and (max-width: $responsive) 
+			@content
+
+	@if $media == phone-min
+		$media-phone : $media-phone + 1px
+		@media only screen and (min-width: $media-phone)
+			@content
+
+// Flexible Mediabreakpoints
+@mixin breakflex($size: 1024, $dir: max)
+	$size : #{$size}#{px}
+	@if $dir == max
+		@media only screen and (max-width: $size)
+			@content
+
+	@if $dir == min
+		@media only screen and (min-width: $size)
+			@content
+
+// Media Querie Range
+@mixin breakrange($min:800, $max:1200)
+	$min: #{$min}#{px}
+	$max: #{$max}#{px}
+	@media only screen and (min-width: $min) and (max-width: $max)
+		@content

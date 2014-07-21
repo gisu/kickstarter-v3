@@ -1,0 +1,256 @@
+// Reset
++global-reset
+
+html
+	font-size: 62.5%
+
+// Clearfix
+.clearfix
+	+pie-clearfix
+
+// Base Cascade
+body
+	font-size: $body-font-size + 0px
+	+font-smoothing(antialiased)
+	background  : $body-background
+	font-family : $body-font-family
+	font-weight : normal
+	line-height : $body-line-height + 0px
+	color       : $body-color
+	position    : relative
+
+// Links
+a
+	color           : $linkColor
+	@if $linkTextDeco == none
+		text-decoration : none
+	@else
+		text-decoration : underline
+	line-height     : inherit
+	outline: 0
+	&:hover
+		@if $linkTextDecoHover == none
+			text-decoration : none
+		@else
+			text-decoration : underline
+		color: $hoverColor
+		outline: 0
+	&:focus
+		color   : $focusColor
+		outline : none
+		outline: 0
+	&:active, &.current, [class^="current-"] &,[class*=" current-"] &
+		color: $activeColor
+		
+p
+	a, a:visited
+		line-height: inherit
+
+// Lists
+ul, ol
+	margin-bottom: $body-line-height + 0px
+	ul, ol
+		margin-bottom: 0
+ul
+	list-style: none outside
+	&.square
+		list-style: square outside
+	&.circle
+		list-style: circle outside
+	&.disc
+		list-style: disc outside
+	li.fork
+		list-style-type: none
+ol
+	list-style: decimal
+
+ol, ul.square, ul.circle, ul.disc
+	margin-left: 20px
+
+li
+	line-height: $body-line-height + 0px
+
+ul.large li
+	line-height: $body-line-height + 4px
+
+// Navigation Lists
+.nav
+	margin-bottom : 0
+	list-style    : none
+	li
+		margin-bottom: 0
+
+.navbar
+	ul
+		+pie-clearfix
+		li
+			float: left
+			a
+				display: block
+
+	&.right
+		+pie-clearfix
+		ul
+			float: right !important
+			li
+				float: left
+	&.center
+		text-align: center
+		ul
+			li
+				+inline-block
+				float: none
+
+// Generate the Container for the Grid
+.container
+	padding: 0 ($container-padding + 0px)
+	.container 
+		padding: 0 0
+
+.row
+	width     : 100%
+	max-width : $grid-max-width + 0px
+	min-width : $grid-min-width + 0px
+	margin    : 0 auto
+	@extend .clearfix
+
+	.row
+		min-width: 0
+
+// Mixed Classes
+.highlight
+	background: $yellow
+
+.left 
+	float: left
+
+.right
+	float: right
+
+.text-left
+	text-align: left
+
+.text-right
+	text-align: right
+
+.text-center
+	text-align: center
+
+.alignleft
+	float: left
+	margin: 0 15px 15px 0
+
+.alignright
+	float: right
+	margin: 0 0 15px 15px
+
+.hide, .visuallyhidden
+	display: none
+
+.invisible
+	visibility: hidden
+
+// VIRTUAL CLASSES
+
+// Hide for both screenreaders and browsers
+//   css-discuss.incutio.com/wiki/Screenreader_Visibility
+%hide-from-all
+	@extend .hide
+	@extend .invisible
+
+%cleartext
+	text-indent: -99999em
+	letter-spacing: -9999px
+
+%totalright
+	float      : right
+	text-align : right
+
+
+
+// Hide only visually, but have it available for screenreaders 
+//   www.webaim.org/techniques/css/invisiblecontent/ 
+//   Solution from: j.mp/visuallyhidden - Thanks Jonathan Neal!
+%screenreader-only
+	position: absolute !important   
+	clip: rect(1px 1px 1px 1px)
+	clip: rect(1px, 1px, 1px, 1px)
+
+// Forces the browser to render animation on the element with hardware acceleration
+%enable-hardware-acceleration 
+	-webkit-transform: translate3d(0,0,0)
+
+// Fluid Media 
+.fluid
+	max-width: 100%
+	height: auto
+	.lt-ie7 &
+		width: 100%
+
+// Flexible Video
+.flex-video
+	position       : relative
+	padding-top    : 25px
+	padding-bottom : 67.5%
+	height         : 0
+	margin-bottom  : 16px
+	overflow       : hidden
+	&.widescreen
+		padding-bottom: 56.25%
+	&.cinema
+		padding-bottom: 43.25%
+	&.vimeo
+		padding-top: 0
+	iframe, object, embed
+		position : absolute
+		top      : 0
+		left     : 0
+		width    : 100%
+		height   : 100%
+
+img
+	-ms-interpolation-mode: bicubic
+
+#googlemap img, object, embed, #map_canvas embed, #map_canvas img, #map_canvas object
+	max-width: none
+	
+// Print styles
+.print-only
+	display: none !important
+
+@mixin printmedia
+	@media print
+		*
+			background  : transparent !important
+			color       : $black !important 
+			text-shadow : none !important
+			filter      : none !important
+			-ms-filter  : none !important
+		p
+			a, a:visited
+				color           : #444 !important
+				text-decoration : underline
+			a[href]:after
+				content: " (" attr(href) ")"
+		abbr[title]:after
+			content: " (" attr(href) ")"
+		.ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after
+			content: ''
+		pre, blockquote
+			border            : solid 1px #999
+			page-break-inside : avoid
+		thead
+			display: table-header-group
+		tr, img
+			page-break-inside: avoid
+		@page
+			margin : 0.5cm
+		p, h2, h3
+			orphans: 3
+			widows: 3
+		h2, h3
+			page-break-after: avoid
+		.hide-on-print
+			display : none !important
+		.print-only
+			display : block !important

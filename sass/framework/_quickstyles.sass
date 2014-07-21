@@ -1,0 +1,451 @@
+// Predefinied Textshadows
+
+// 3D Textshadow
+@mixin tshadow-3d($size: 5, $directionX: 1, $directionY: 1, $blur: 1px, $color: black)
+	$string: ''
+	@for $i from 1 through $size 
+		$string: $string + ( #{$i * $directionX}px #{$i * $directionY}px ($blur + 0px) darken($color,(1 * $i)))
+		@if $i < $size 
+			$string: $string + ', '
+
+	+text-shadow(#{$string})
+
+// Textshadow Retro
+@mixin tshadow-retro($mcolor: #3D3D38, $ecolor: #C1C1C1, $point1:3px, $point2:5px)
+	+text-shadow(($point1 + 0px) ($point1 + 0px) 0 $mcolor, ($point2 + 0px) ($point2 + 0px) 0 $ecolor)
+
+// Textshadow Contour
+@mixin tshadow-contour($color: #666)
+	+text-shadow(0 -1px $color, 1px 0 $color, 0 1px $color, -1px 0 $color)	
+
+// Textshadow Letterpress
+@mixin tshadow-letterpress($bright: #fff, $dark: #666, $position: 1,$blur:1)
+	+text-shadow(0 (0 - $position + 0px) ($blur + 0px) $dark, 0 ($position + 0px) ($blur + 0px) $bright)
+
+// Textshadow Embossed
+@mixin tshadow-emboss($bright:#fff, $dark:#666, $position: 1,$blur:1)
+	+text-shadow(0 (0 - $position + 0px) ($blur + 0px) $bright, 0 ($position + 0px) ($blur + 0px) $dark)
+
+// Textshadow Insert (Webkit Only)
+@mixin tshadow-inset($color: #666)
+	background: $color
+	+text-shadow(rgba(255,255,255,0.5) 0 2px 2px)
+	+background-clip(text)
+	color: transparent
+
+
+
+// Predefinied 3D Image Styles
+// Use it with the little JS Script (imagewrapper.js) with a Div to Wrap the Image (the Div can get a class embossed, cutout,
+// soft-embossed, glossy)
+@mixin imagewrap($emboss: false, $soft: false, $cutout: false, $glossy: false)
+	.image-wrap
+		position       : relative
+		display        : inline-block
+		max-width      : 100%
+		vertical-align : bottom
+		&:after
+			content  : ''
+			width    : 100%
+			height   : 100%
+			position : absolute
+			top      : -1px
+			left     : -1px
+			border   : 1px solid #aaa
+			+box-shadow(inset 0 0 1px rgba(255,255,255,.4), inset 0 1px 0 rgba(255,255,255,.4), 0 1px 2px rgba(0,0,0,.3))
+			+border-radius(7px)
+		img
+			vertical-align: bottom
+			+box-shadow(0 1px 2px rgba(0,0,0,.4))
+			+border-radius(6px)
+
+	.image-circle
+		.image-wrap
+			&:after
+				+border-radius(50em)
+			img
+				+border-radius(50em)
+
+	@if $emboss
+		.embossed .image-wrap:after
+			+box-shadow(inset 0 0 1px rgba(0,0,0,.8), inset 0 1px 0 rgba(255,255,255,.5), inset 0 -6px 0 rgba(0,0,0,.6), inset 0 -7px 0 rgba(255,255,255,.3))
+
+	@if $cutout
+		.cutout .image-wrap:after
+			+box-shadow( 0 1px 0 rgba(255,255,255,.2), inset 0 4px 5px rgba(0,0,0,.6), inset 0 1px 2px rgba(0,0,0,.6))
+
+	@if $soft
+		.soft-embossed .image-wrap:after 
+			+box-shadow(inset 0 0 3px rgba(0,0,0,1), inset 0 1px 1px rgba(255,255,255,.5), inset 0 -6px 2px rgba(0,0,0,.6), inset 0 -8px 2px rgba(255,255,255,.3))
+
+	@if $glossy
+		.glossy .image-wrap:before 
+			position   : absolute
+			content    : ' '
+			width      : 100%
+			height     : 50%
+			top        : 0
+			left       : 0
+			background : -moz-linear-gradient(top, rgba(255,255,255,0.6) 0%, rgba(255,255,255,.15) 100%)
+			background : -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(255,255,255,0.6)), color-stop(100%,rgba(255,255,255,.15)))
+			background : linear-gradient(top, rgba(255,255,255,0.6) 0%,rgba(255,255,255,.15) 100%)
+			+border-radius(7px 7px 0 0)
+
+// Polaroid Style
+@mixin polaroid($color: #eee, $direction: 1, $blur: 5, $trans: 0.3, $rotate: false)
+	padding    : 10px 10px 40px 10px
+	position   : relative
+	display    : inline-block
+	background : $color
+	+box-shadow(0 ($direction + 0px) ($blur + 0px) rgba(0,0,0,$trans),inset 0 0 9px rgba(0,0,0,0.1))
+	img
+		border: 1px solid #ccc
+	&:after
+		content    : attr(title)
+		position   : absolute
+		bottom     : 15px
+		left       : 0
+		text-align : center
+		width      : 100%
+		color      : #888
+	@if $rotate
+		&:nth-child(odd)
+			top: - 4px
+			+rotate(4deg)
+		&:nth-child(even)
+			+rotate(-2deg)
+		&:nth-child(3n)
+			top: -6px
+		&:nth-child(5n)
+			+rotate(5deg)
+			right: 4px
+		&:nth-child(8n)
+			top: 8px
+			left: -5px
+		&:nth-child(11n)
+			+rotate(3deg)
+			top: -2px
+			right: 5px
+
+// BOX SHADOWS
+
+// Simple Border
+@mixin simple-border($width: 1, $color: #fff, $direction: 0, $blur:3, $shadow: rgba(0,0,0,0.3))
+	border: ($width + 0px) solid $color
+	+box-shadow(0 ($direction + 0px) ($blur + 0px) $shadow)
+
+// Shadow Lifted Corners
+@mixin shadow-lifted($shadow1: 0.4, $shadow2: 0.2, $blur: 16, $height:20, $angle: 2,$dirY:12, $dirX: 1,$pos: down)
+	$angle: abs($angle)
+
+	position: relative
+	+box-shadow(0 0px 3px rgba(0,0,0,$shadow2))
+	&:before, &:after
+		content  : ''
+		left     : $dirX + 0%
+		width    : 50 - $dirX + 0.1%
+		height   : $height + 0px 
+		position : absolute
+		z-index  : -1
+		+box-shadow(0 ($height + 0px) ($blur + px) rgba(0,0,0,$shadow1))
+		@if $pos == down
+			bottom: $dirY + 0px
+			+rotate((0 - $angle) + deg)
+		@if $pos == up
+			top: $dirY + 0px
+			+rotate($angle - 180 + deg)
+	&:after
+		right: $dirX + 0%
+		left: auto
+		@if $pos == down
+			+rotate($angle + deg)
+		@if $pos == up
+			+rotate((0 - $angle - 180) + deg)
+
+@mixin box-insert($deep: 2, $blur: 3, $bright: 0.6, $dark: 0.5,$radius: 0)
+	+box-shadow(inset 0 ($deep + px) ($blur + px) rgba(0,0,0,$dark),0 ($deep - 1px) 1px rgba(255,255,255,$bright)) 
+
+	@if $radius > 0
+		$radius : $radius + px
+		+border-radius($radius)
+
+
+
+// CSS SHAPES
+
+// 6 Point Star Shape
+@mixin star6($color:#ccc,$size:100px)
+	$size: $size + 0px
+	width         : 0
+	height        : 0 
+	position      : relative
+	border-left   : ($size / 2) solid transparent
+	border-right  : ($size / 2) solid transparent
+	border-bottom : $size solid $color
+	&:after
+		width        : 0
+		height       : 0
+		position     : absolute
+		border-left  : ($size / 2) solid transparent
+		border-right : ($size / 2) solid transparent
+		border-top   : $size solid $color
+		content      : ''
+		top          : ( $size / 2) * 0.65
+		left         : 0 - ( $size / 2)
+
+// 5 Point Star Shape
+@mixin star5($color:#ccc,$size:100px)
+	$size: $size + 0px
+	margin        : ($size * 0.5) 0
+	position      : relative
+	display       : block
+	color         : $color
+	width         : 0
+	height        : 0
+	border-right  : $size solid transparent
+	border-bottom : ($size * 0.7) solid $color
+	border-left   : $size solid transparent
+	+rotate(35deg)
+	&:before
+		content       : ''
+		height        : 0
+		width         : 0
+		display       : block
+		position      : absolute
+		top           : 0 - ($size * 0.45)
+		left          : 0 - ($size * 0.65)
+		border-bottom : ($size * 0.8) solid $color
+		border-left   : ($size * 0.3) solid transparent
+		border-right  : ($size * 0.3) solid transparent
+		+rotate(-35deg)
+	&:after
+		content       : ''
+		height        : 0
+		width         : 0
+		display       : block
+		position      : absolute
+		color         : $color
+		top           : $size * 0.03
+		left          : 0 - ($size * 1.05)
+		border-bottom : ($size * 0.7) solid $color
+		border-left   : $size solid transparent
+		border-right  : $size solid transparent
+		+rotate(-70deg)
+
+
+
+// 12Point Burst
+@mixin burst12point($color:#ccc,$size:80px)
+	$size: $size + 0px
+	background : $color
+	width      : $size
+	height     : $size
+	line-height: $size
+	position   : relative
+	text-align : center
+	&:before, &:after
+		content    : ''
+		position   : absolute
+		z-index    : -1
+		top        : 0
+		left       : 0
+		background : $color
+		width      : $size
+		height     : $size
+	&:before
+		+rotate(30deg)
+
+	&:after
+		+rotate(60deg)
+
+// 8Point Burst
+@mixin burst8point($color:#ccc, $size:80px)
+	$size: $size + 0px
+	background : $color
+	width      : $size
+	height     : $size
+	line-height: $size
+	position   : relative
+	text-align : center
+	+rotate(20deg)
+	&:before
+		content    : ''
+		position   : absolute
+		z-index    : -1
+		top        : 0
+		left       : 0
+		background : $color
+		width      : $size
+		height     : $size
+		+rotate(135deg)
+
+// Triangle Shape Up
+@mixin triangle-up($color:#ccc, $size:100px)
+	$size: $size + 0px
+	width         : 0
+	height        : 0
+	text-align    : center
+	border-left   : ($size / 2) solid transparent
+	border-right  : ($size / 2) solid transparent
+	border-bottom : $size solid $color
+
+// Triangle Shape Down
+@mixin triangle-down($color:#ccc, $size:100px)
+	$size: $size + 0px
+	width        : 0
+	height       : 0
+	text-align   : center
+	border-left  : ($size / 2) solid transparent
+	border-right : ($size / 2) solid transparent
+	border-top   : $size solid $color
+
+// Triangle Shape Left
+@mixin triangle-left($color:#ccc, $size:100px)
+	$size: $size + 0px
+	width         : 0
+	height        : 0
+	text-align    : center
+	border-top    : ($size / 2) solid transparent
+	border-right  : $size solid $color
+	border-bottom : ($size / 2) solid transparent
+
+// Triangle Shape Right
+@mixin triangle-right($color:#ccc, $size:100px)
+	$size: $size + 0px
+	width         : 0
+	height        : 0
+	text-align    : center
+	border-top    : ($size / 2) solid transparent
+	border-left   : $size solid $color
+	border-bottom : ($size / 2) solid transparent
+
+// Triangle Shape Top Left
+@mixin triangle-top-left($color:#ccc, $size:100px)
+	$size: $size + 0px
+	width        : 0
+	height       : 0
+	border-top   : $size solid $color
+	border-right : $size solid transparent
+
+// Triangle Shape Top Right
+@mixin triangle-top-right($color:#ccc, $size:100px)
+	$size: $size + 0px
+	width        : 0
+	height       : 0
+	border-top   : $size solid $color
+	border-left  : $size solid transparent
+
+// Triangle Shape Bottom Left
+@mixin triangle-bottom-left($color:#ccc, $size:100px)
+	$size: $size + 0px
+	width        : 0
+	height       : 0
+	border-bottom: $size solid $color
+	border-right : $size solid transparent
+
+// Triangle Shape Bottom Right
+@mixin triangle-bottom-right($color:#ccc, $size:100px)
+	$size: $size + 0px
+	width        : 0
+	height       : 0
+	border-bottom: $size solid $color
+	border-left : $size solid transparent
+
+@mixin hr-3d($bright: 0.8, $dark: 0.2, $switch: false, $content: false, $context: data, $background: #fff)
+	border         : 0
+	@if $switch == false
+		border-bottom  : 1px solid rgba(0,0,0,$dark)
+	@else
+		border-bottom : 1px solid rgba(255,255,255,$bright)
+
+	padding-bottom : 3px
+	margin-bottom  : 10px
+	position       : relative
+	text-align     : center
+	&:after 
+		content       : " "
+		@if $switch == false
+			border-bottom : 1px solid rgba(255,255,255,$bright)
+		@else
+			border-bottom  : 1px solid rgba(0,0,0,$dark)
+		position      : absolute
+		bottom        : -2px
+		left          : 0
+		width         : 100%
+		height        : 1px
+	@if $content == true
+		@if $context == data
+			&:before
+				content    : attr(data-text)
+				display    : inline-block
+				position   : relative
+				z-index    : 1
+				top        : -10px
+				font-size  : 12px
+				padding    : 0 8px
+				background : $background
+		@else 
+			&:before
+				content    : $context
+				display    : inline-block
+				position   : relative
+				z-index    : 1
+				top        : -10px
+				font-size  : 12px
+				padding    : 0 8px
+				background : $background
+
+@mixin hr-thin($size: 1,$color: #333333, $design: false,$content: false, $context: data, $background: #fff)
+	border     : 0
+	height     : $size + px
+	background : $color
+	margin     : 10px 0
+	text-align : center
+	position   : relative
+	$color-rgba: rgba($color, 0.75)
+	@if $design == in
+		+background(linear-gradient(top left, rgba(0,0,0,0), rgba($color,0.75), rgba(0,0,0,0)))
+	@if $design == out
+		+background(linear-gradient(top left, rgba($color,0.75),  rgba(0,0,0,0), rgba($color,0.75)))
+	@if $design == none
+		+background(linear-gradient(top left, rgba($color,0.75),  rgba($color,0.75), rgba($color,0.75)))
+	@if $content == true
+		@if $context == data
+			&:before
+				content    : attr(data-text)
+				display    : inline-block
+				position   : relative
+				z-index    : 1
+				top        : -12px
+				font-size  : 12px
+				padding    : 0 8px
+				background : $background
+		@else 
+			&:before
+				content    : $context
+				display    : inline-block
+				position   : relative
+				z-index    : 1
+				top        : -12px
+				font-size  : 12px
+				padding    : 0 8px
+				background : $background
+
+@mixin stitched($boxcolor: gray, $stitchcolor: white, $radius: 0, $padding: 4)
+	position    : relative
+	z-index     : 1
+	background  : $boxcolor
+	@if $radius > 0
+		+border-radius(($radius + 0px))
+	&:before
+		content  : ''
+		position : absolute
+		z-index  : -1
+		top      : $padding + 0px
+		bottom   : $padding + 0px
+		left     : $padding + 0px
+		right    : $padding + 0px
+		border   : 1px dashed $stitchcolor
+		@if $radius > 0
+			+border-radius(($radius + 1px))
+

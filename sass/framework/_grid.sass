@@ -1,0 +1,320 @@
+@mixin grid
+	@if $gridsize == false
+		$gridsize: 0
+
+	@if $smallcolsize == false
+		$smallcolsize: 0
+
+	@if $gutter == false
+		$gutter: 4.4%
+
+	@if $colums == false
+		$colums: 12
+		
+	$gutterInt: 0 !default
+	$columSize: 0 !default
+
+	// RECALC PX SIZE TO PERCENT SIZE
+	@if $gridsize > 1 
+		
+		@if unit($gutter) == 'px'
+			$gridsize  : $gridsize + 0px
+			$gutterInt : percentage($gutter / $gridsize)
+
+		@else 
+			$gutterInt : $gutter + 0%
+		
+		@if $smallcolsize > 0 
+			$columSize : percentage($smallcolsize / $gridsize)	
+		@else 
+			$columSize : (100 - (($colums - 1) * $gutterInt)) / $colums
+
+	@else
+		@if unit($gutter) == 'px'
+			$gridsize  : $grid-max-width + 0px
+			$gutterInt : percentage($gutter / $gridsize)
+		@else
+			$gutterInt : $gutter + 0%
+
+		$columSize : (100 - (($colums - 1) * $gutterInt)) / $colums
+
+	[class^="col-"],[class*=" col-"],.colum
+		margin-left : $gutterInt
+		float       : left
+		min-height  : 1px
+		position    : relative
+		&:first-child
+			margin-left: 0
+		&:last-child
+			float: right
+
+	.row
+		// Grid Calculation
+		@for $i from 1 through $colums
+			.col-#{$i}
+				width: $columSize * $i + ($gutterInt * ($i - 1))
+				@if $support-lt-ie8 == true
+					.lt-ie8 &
+						width: $columSize * $i + ($gutterInt * ($i - 1)) - 0.011
+
+		// Offset Calculation
+		@if $grid-offset == true
+
+			@for $i from 1 through ($colums - 1) 
+				.offset-by-#{$i}
+					@if $i < ($colums - 1)
+						margin-left: ($columSize + (($gutterInt * 2) * $i)) - (0.1 * ($i - 1))
+					&:first-child
+						margin-left: ($columSize * $i) + ($gutterInt  * $i)
+
+		.centered
+			float  : none
+			margin : 0 auto
+			
+	// Odering Calculation
+	@if $grid-ordering == true
+
+		@for $i from 2 through ($colums - 2)
+			.push-#{$i}
+				float : left !important
+				left  : ($columSize + $gutterInt) * $i
+			
+			.pull-#{$i}
+				float : left !important
+				right : ($columSize + $gutterInt) * $i
+
+
+	
+// GRID SYSTEM BASED ON PX
+@mixin pixelgrid
+
+	$colums    : $pg-columns
+	$gutterInt : $pg-gutter
+	$columSize : $pg-smallcolsize
+
+	.column
+		margin-left : $gutterInt + 0px
+		float       : left
+		min-height  : 1px
+		position    : relative
+		&:first-child
+			margin-left: 0
+	.row
+		// Grid Calculation
+		@for $i from 1 through $colums
+			.col-#{$i}
+				width: $columSize * $i + ($gutterInt * ($i - 1)) + 0px
+
+		// Offset Calculation
+		@if $grid-offset == true
+
+			@for $i from 1 through ($colums - 1) 
+				.offset-by-#{$i}
+					@if $i < ($colums - 1)
+						margin-left: floor(($columSize + (($gutterInt * 2) * $i)) - (0.1 * ($i - 1)) + 0px)
+					&:first-child
+						margin-left: ($columSize * $i) + ($gutterInt  * $i) + 0px
+
+		.centered
+			float: none
+			margin: 0 auto
+			
+	// Odering Calculation
+	@if $grid-ordering == true
+
+		@for $i from 2 through ($colums - 2)
+			.push-#{$i}
+				left: ($columSize + $gutterInt) * $i + 0px
+			
+			.pull-#{$i}
+				right: ($columSize + $gutterInt) * $i + 0px
+
+
+@mixin gridbreaker
+	@if $gutter == false
+		$gutter: 4.4%
+
+	$gutterInt: 0 !default
+
+	// RECALC PX SIZE TO PERCENT SIZE
+	@if $gridsize > 1 
+		
+		@if unit($gutter) == 'px'
+			$gutterInt : percentage($gutter / $gridsize)
+
+		@else 
+			$gutterInt : $gutter
+
+	@else
+		$gutterInt : $gutter
+
+
+	.column
+		float         : none
+		width         : 100% !important
+		margin-left   : 0
+		margin-bottom : $gutterInt
+
+	.row
+		max-width: inherit
+		min-width: inherit
+		@if $grid-offset == true
+			@for $i from 1 through ($colums - 1) 
+				.offset-by-#{$i}
+					@if $i < ($colums - 1)
+						margin-left : 0
+					&:first-child
+						margin-left : 0
+	
+	// Odering Calculation
+	@if $grid-ordering == true
+
+		@for $i from 2 through ($colums - 2)
+			.push-#{$i}
+				float : none !important
+				left  : 0
+			
+			.pull-#{$i}
+				float : none !important
+				right : 0
+
+// Small Grid Class for Floating Boxes
+// .container
+// 	+quick-grid($width:88px,$gutter:10px)
+// 		height: 88px
+// 		margin-bottom: 10px
+@mixin quick-grid($prefix: quickgrid, $width:60, $gutter:10)
+	margin-left  : 0 - (($gutter / 2) + 0px)
+	margin-right : 0 - (($gutter / 2) + 0px)
+	overflow     : hidden
+	.#{$prefix}
+		float        : left
+		width        : $width + 0px
+		margin-left  : ($gutter / 2) + 0px
+		margin-right : ($gutter / 2) + 0px
+		@content
+
+// HolyGrail Layout Helper
+@mixin holygrail($leftwidth:200px, $rightwidth:200px, $leftname:hg-left, $mainname:hg-main,$rightname:hg-right, $mode:lr)
+	
+	zoom: 1
+	&:before,&:after
+		content: ' '
+		display: table
+	&:after
+		clear: both
+
+	@if $mode == lr
+		padding-left  : $leftwidth + 0px
+		padding-right : $rightwidth + 0px
+		.#{$mainname},.#{$leftname},.#{$rightname}
+			float    : left
+			position : relative
+		.#{$mainname}
+			width : 100%
+		.#{$leftname}
+			width       : $leftwidth + 0px
+			margin-left : 0 - ($leftwidth + 0px)
+
+		.#{$rightname}
+			width        : $rightwidth + 0px
+			margin-right : 0 - ($rightwidth + 0px)
+
+	@else if $mode == l
+		padding-left: $leftwidth + 0px
+		.#{$mainname},.#{$leftname},.#{$rightname}
+			float: left
+		.#{$mainname}
+			width: 100%
+		.#{$leftname}
+			width       : $leftwidth + 0px
+			margin-left : 0 - ($leftwidth + 0px)
+
+		.#{$rightname}
+			display: none
+
+	@else if $mode == r
+		padding-right: $rightwidth
+		.#{$mainname},.#{$leftname},.#{$rightname}
+			float: left
+		.#{$mainname}
+			width: 100%
+		.#{$leftname}
+			display: none
+
+		.#{$rightname}
+			width        : $rightwidth + 0px
+			margin-right : 0 - ($rightwidth + 0px)
+
+// Breaks the Holygrail Boxes 
+@mixin holygrail-breaker($leftname:hg-left, $mainname:hg-main,$rightname:hg-right)
+	padding: 0
+	.#{$mainname},.#{$leftname},.#{$rightname}
+		float   : left
+		padding : 0
+		margin  : 0
+		width   : 100%
+
+// Blockgrid
+@mixin blockgrid
+	.block-grid
+		display  : block
+		overflow : hidden
+		& > li
+			display : block
+			height  : auto
+			float   : left
+		&.two-up
+			margin-left : -4%
+			& > li
+				margin-left   : 4%
+				margin-bottom : 4%
+				width         : 46%
+		&.three-up
+			margin-left : -2%
+			& > li
+				margin-left   : 2%
+				margin-bottom : 2%
+				width         : 31.3%
+		&.four-up
+			margin-left : -2%
+			& > li
+				margin-left   : 2%
+				margin-bottom : 2%
+				width         : 23%
+		&.five-up
+			margin-left : -1.5%
+			& > li
+				margin-left   : 1.5%
+				margin-bottom : 1.5%
+				width         : 18.5%
+
+// Equalheight Mixin
+@mixin equalheight($prefix:equalbox, $boxes:2, $margin:0)
+	display      : table
+	table-layout : fixed
+	overflow     : hidden
+
+	.#{$prefix}
+		display        : table-cell
+		vertical-align : top
+		width          : percentage(1 / $boxes)
+		@if $margin > 0
+			@for $i from 2 through $boxes
+				&:nth-child(#{$i})
+					> div
+						margin-left: unquote($margin + '%')
+		> div
+			padding-bottom : 100000px
+			margin-bottom  : -100000px
+
+@mixin equalheight-breaker($prefix:equalbox)
+	display : block
+	.#{$prefix}
+		display : block
+		width   : 100%
+		div
+			padding-bottom : 0px
+			margin-bottom  : 0px
+			margin-left    : 0px !important
+

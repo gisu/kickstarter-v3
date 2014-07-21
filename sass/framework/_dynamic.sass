@@ -1,0 +1,586 @@
+// Mixin for Fancybox
+@mixin fancybox
+	.fancybox-tmp 
+		position   : absolute
+		top        : -9999px
+		left       : -9999px
+		padding    : 0
+		overflow   : visible
+		visibility : hidden
+		iframe, object 
+			vertical-align : top
+			padding        : 0
+			margin         : 0
+
+	.fancybox-wrap 
+		position : absolute
+		top      : 0
+		left     : 0
+		z-index  : 1002
+
+		.fancybox-outer 
+			padding     : 0
+			margin      : 0
+			background  : $fb-border-color
+			color       : #444
+			text-shadow : none
+			$fb-radius: $fb-radius + 0px
+			@if $fb-radius <= 0
+				+border-radius(1px)
+			@else 
+				+border-radius($fb-radius)
+
+			.fancybox-inner 
+				width    : 100%
+				height   : 100%
+				padding  : 0
+				margin   : 0
+				position : relative
+				outline  : none
+				overflow : hidden
+				img
+					@if $fb-radius-inner > 0
+						$fb-radius-inner : $fb-radius-inner + 0px
+						+border-radius($fb-radius-inner)
+
+	.fancybox-opened 
+		z-index: 1003	
+		.fancybox-outer 
+			+box-shadow(0 10px 25px rgba(0, 0, 0, 0.5))
+
+	.fancybox-error 
+		color   : #444
+		margin  : 0
+		padding : 10px
+
+	.fancybox-iframe 
+		display        : block
+		width          : 100%
+		height         : 100%
+		border         : 0
+		padding        : 0
+		margin         : 0
+		vertical-align : top
+
+	.fancybox-image 
+		max-width  : 100%
+		max-height : 100%
+		@extend .fancybox-iframe
+
+	#fancybox-loading 
+		position    : fixed 
+		top         : 50%
+		left        : 50%
+		margin-top  : -21px
+		margin-left : -21px
+		width       : 42px
+		height      : 42px
+		background  : image-url('misc/loading.gif')
+		opacity     : 0.8
+		cursor      : pointer
+		z-index     : 1010
+
+	.fancybox-close 
+		position : absolute
+		top      : $fb-close-top + 0px
+		right    : $fb-close-right + 0px
+		width    : fwicons-sprite-width(fb-close-big)
+		height   : fwicons-sprite-height(fb-close-big)
+		cursor   : pointer
+		z-index  : 1004
+		+fwicons-sprite(fb-close-big)
+
+	.fancybox-prev, .fancybox-next 
+		position   : absolute
+		top        : 0
+		width      : 40%
+		height     : 100%
+		cursor     : pointer
+		z-index    : 1003
+		span
+			position   : absolute
+			top        : $fb-nav-position + 0% 
+			left       : -9999px
+			width      : fwicons-sprite-width(fb-prev-big)
+			height     : fwicons-sprite-height(fb-prev-big)
+			margin-top : -18px
+			cursor     : pointer
+			z-index    : 1003
+		&:hover
+			visibility: visible
+
+	.fancybox-prev  
+		left: 0
+		span 
+			+fwicons-sprite(fb-prev-big)
+		&:hover
+			span
+				left: $fb-nav-offset-left + px
+
+	.fancybox-next 
+		right: 0
+		span 
+			+fwicons-sprite(fb-next-big)
+		&:hover
+			span
+				left: auto
+				right: $fb-nav-offset-right + px
+
+	#fancybox-overlay 
+		position   : absolute
+		top        : 0
+		left       : 0
+		overflow   : hidden
+		display    : none
+		z-index    : 1001
+		background : #000
+
+	.fancybox-title 
+		visibility  : hidden	
+		position    : relative
+		text-shadow : none
+		z-index     : 1005
+
+	.fancybox-opened .fancybox-title 
+		visibility: visible
+
+	.fancybox-title-float-wrap 
+		position      : absolute
+		bottom        : 0
+		right         : 50%
+		margin-bottom : -35px
+		z-index       : 1003
+		text-align    : center
+		.child
+			+border-radius(15px)
+			display      : inline-block
+			margin-right : -100%
+			padding      : 2px 20px
+			background   : transparent 
+			background   : rgba(0, 0, 0, 0.8)
+			text-shadow  : 0 1px 2px #222
+			color        : #FFF
+			line-height  : 24px
+			white-space  : nowrap
+
+	.fancybox-title-outside-wrap 
+		position   : relative
+		margin-top : 10px
+		color      : #fff
+
+	.fancybox-title-inside-wrap 
+		margin-top     : 10px
+		padding-bottom : 10px
+		font-size      : $body-font-size - 2px
+
+	.fancybox-title-over-wrap 
+		position   : absolute
+		bottom     : 0
+		left       : 0	
+		color      : #fff
+		padding    : 10px
+		background : #000
+		background : rgba(0, 0, 0, .8)
+
+
+	@if $fancy-option-buttons == true
+		#fancybox-buttons 
+			position : fixed
+			left     : 0
+			width    : 100%
+			z-index  : 1005
+			
+			&.top
+				top: 10px
+			
+			&.bottom 
+				bottom: 10px
+			
+			ul 
+				display    : block
+				width      : fwicons-sprite-width(fb-left) + fwicons-sprite-width(fb-right) + fwicons-sprite-width(fb-play) + fwicons-sprite-width(fb-expand) + fwicons-sprite-width(fb-close) + (6 * 10px)
+				height     : fwicons-sprite-height(fb-left) + 10px
+				margin     : 0 auto
+				padding    : 0
+				list-style : none
+				+border-radius(3px)
+				+box-shadow(0 1px 3px #000,0 0 0 1px rgba(0,0,0,.7),inset 0 0 0 1px rgba(255,255,255,.05))
+				background : #111
+				+background(top,rgba(255,255,255,.2) 0%,rgba(255,255,255,.15) 50%,rgba(255,255,255,.1) 50%,rgba(255,255,255,.15) 100%)
+				li 
+					float: left
+					margin: 0
+					padding: 0
+
+			a 
+				display     : block
+				height      : fwicons-sprite-height(fb-left)
+				text-indent : -9999px
+				outline     : none
+				margin      : 5px
+
+				&.btnPrev 
+					+fwicons-sprite(fb-left)
+					width: fwicons-sprite-width(fb-left)
+
+				&.btnNext 
+					+fwicons-sprite(fb-right)
+					width: fwicons-sprite-width(fb-right)
+
+				&.btnPlay 
+					+fwicons-sprite(fb-play)
+					width: fwicons-sprite-width(fb-play)
+
+				&.btnPlayOn 
+					+fwicons-sprite(fb-pause)
+					width: fwicons-sprite-width(fb-pause)
+
+				&.btnToggle 
+					+fwicons-sprite(fb-expand)
+					width: fwicons-sprite-width(fb-expand)
+
+				&.btnToggleOn 
+					+fwicons-sprite(fb-shrink)
+					width: fwicons-sprite-width(fb-shrink)
+
+				&.btnClose 
+					+fwicons-sprite(fb-close)
+					width: fwicons-sprite-width(fb-close)
+
+				&.btnDisabled 
+					opacity : 0.5
+					cursor  : default
+
+	@if $fancy-option-thumbs == true
+		#fancybox-thumbs 
+			position : fixed
+			left     : 0px
+			width    : 100%
+			overflow : hidden
+			z-index  : 1005
+
+			&.bottom 
+				bottom: 2px
+
+			&.top 
+				top: 2px
+
+			ul 
+				position   : relative
+				list-style : none
+				margin     : 0
+				padding    : 0
+
+				li 
+					float   : left
+					padding : 1px
+					+opacity(0.5)
+
+					&.active 
+						+opacity(0.75)
+						padding : 0
+						border  : 1px solid #fff
+
+					&:hover 
+						opacity: 1
+
+					a 
+						display    : block
+						position   : relative
+						overflow   : hidden
+						border     : 1px solid #222
+						background : #111
+						outline    : none
+
+					img 
+						display  : block
+						position : relative
+						border   : 0
+						padding  : 0
+
+
+@mixin flexslider
+	.flex-container
+		zoom     : 1
+		position : relative
+		ul, li
+			margin-bottom: 0
+		a
+			&:active
+				outline: none
+
+		.flex-control-nav, .flex-direction-nav
+			margin     : 0
+			padding    : 0
+			list-style : none
+
+		.flex-caption, p.flex-caption
+			margin      : 0
+			background  : none
+			-ms-filter  : progid:DXImageTransform.Microsoft.gradient(startColorstr=#4C000000,endColorstr=#4C000000)
+			filter      : progid:DXImageTransform.Microsoft.gradient(startColorstr=#4C000000,endColorstr=#4C000000)
+			zoom        : 1
+			width       : 96%
+			padding     : 2%
+			position    : absolute
+			left        : 0
+			@if $caption-position == top
+				top       : 0
+			@else
+				bottom    : 0
+
+			background  : $caption-background
+			color       : $caption-color
+			text-shadow : 0 -1px 0 rgba(0, 0, 0, 0.3)
+			font-size   : $caption-fontsize - 2px
+			line-height : $caption-fontsize + 4px
+			@if $caption-align == right
+				text-align: right
+			@else if $caption-align == center
+				text-align: center
+
+		.flex-direction-nav
+			height: 0
+			li
+				a
+					width       : fwicons-sprite-width(fs-right)
+					height      : fwicons-sprite-height(fs-right)
+					margin      : -13px 0 0
+					display     : block
+					position    : absolute
+					@if $nav-position == bottom
+						bottom      : 10%
+					@else if $nav-position == top
+						top         : 10%
+					@else
+						top         : 50%
+					cursor      : pointer
+					text-indent : -999em
+				.next
+					+fwicons-sprite(fs-right)
+					right: 0 - $nav-right-offset + 0px
+				.prev
+					+fwicons-sprite(fs-left)
+					left: 0 - $nav-left-offset + 0px
+				.disabled
+					+opacity(0.3)
+					cursor  : default
+
+		.flex-control-nav
+			width      : 100%
+			position   : absolute
+			@if $control-position == false
+				bottom     : 0 - ($control-size + 15px)
+			@else
+				bottom     : 0 - $control-position + 0px
+			text-align : center
+			li
+				margin   : 0 0 0 6px
+				+inlineblock
+				&:first-child
+					margin: 0
+				a
+					+box-shadow(inset 0 1px 2px rgba(0,0,0,0.5), 0 1px 2px rgba(255,255,255,0.6))
+					@if $control-radius > 0
+						$control-radius: $control-radius + 0px
+					+border-radius($control-radius)
+					width       : $control-size + 0px
+					height      : $control-size + 0px
+					display     : block
+					background  : #fff
+					cursor      : pointer
+					text-indent : -9999em
+					&:hover
+						background: light($default-color,20)
+					&.active
+						background : darken($default-color,20)
+						cursor     : default
+			
+	.flexslider 
+		width    : 100%
+		margin   : 0
+		padding  : 0
+		position : relative
+		zoom     : 1
+		a
+			&:active
+				outline: none
+
+		.slides
+			margin     : 0
+			padding    : 0
+			list-style : none
+			@extend .clearfix
+
+			> li
+				display  : none
+				position : relative
+
+				&:first-child 
+					.no-js &
+						display: block
+
+			img
+				max-width : 100%
+				display   : block
+ 
+		.flex-pauseplay span
+			text-transform: capitalize
+
+
+// Reveal Modals
+@mixin reveal
+	.reveal-modal-bg
+		position   : fixed
+		height     : 100%
+		width      : 100%
+		background : #000
+		background : rgba(0,0,0,0.8)
+		z-index    : 40
+		display    : none
+		top        : 0
+		left       : 0
+
+	.reveal-modal
+		visibility  : hidden
+		top         : 100px
+		left        : 50%
+		margin-left : -300px
+		width       : 520px
+		background  : #eee image-url('misc/modal-gloss.png') no-repeat -200px -80px
+		position    : absolute
+		z-index     : 41
+		padding     : 30px 40px 34px
+		+border-radius(5px)
+		+box-shadow(0 0 10px rgba(0,0,0,0.4))
+		&.small
+			width       : 200px
+			margin-left : -140px
+		&.medium
+			width       : 400px
+			margin-left : -240px
+		&.large
+			width       : 600px
+			margin-left : -340px
+		&.xlarge
+			width       : 800px
+			margin-left : -440px
+		.close-reveal-modal
+			font-size   : 22px
+			line-height : .5
+			position    : absolute
+			top         : 8px
+			right       : 11px
+			color       : #aaa
+			text-shadow : 0 -1px 1px rgba(0,0,0,0.6)
+			font-weight : bold
+			cursor      : pointer
+		.row
+			min-width: 0
+
+// Mixin for the Jquery Scrollbar Plugin
+@mixin jsscroller
+	.jspVerticalBar *,
+	.jspHorizontalBar *
+		margin  : 0
+		padding : 0
+
+	.jspContainer
+		overflow : hidden
+		position : relative
+
+	.jspPane
+		position: absolute
+
+	.jspCap
+		display: none
+
+	.jspTrack
+		background : $sb-track
+		position   : relative
+
+	.jspDrag
+		background : $sb-drag
+		position   : relative
+		top        : 0
+		left       : 0
+		cursor     : pointer
+
+	.jspCorner
+		background : #eeeef4
+		float      : left
+		height     : 100%
+
+	.jspHorizontalBar 
+		position   : absolute
+		bottom     : 0
+		left       : 0
+		width      : 100%
+		height     : $sb-width + 0px
+		background : red
+		
+		.jspTrack,.jspDrag
+			float  : left
+			height : 100%
+
+		.jspArrow
+			width  : 16px
+			float  : left
+			height : 100%
+
+		.jspCap
+			float: left
+
+	.jspArrow
+		background  : #50506d
+		text-indent : -20000px
+		display     : block
+		cursor      : pointer
+
+		&.jspDisabled
+			cursor     : default
+			background : #80808d
+
+	.jspVerticalBar 
+		position   : absolute
+		top        : 0
+		right      : 0
+		width      : $sb-width + 0px
+		height     : 100%
+		background : red
+		
+		.jspArrow
+			height: 16px
+			&:focus
+				outline: none
+
+@mixin bgstretcher
+	.bgstretcher-area 
+		text-align: left 
+	.bgstretcher, .bgstretcher ul, .bgstretcher ul li 
+		position : absolute
+		top      : 0
+		left     : 0
+
+	.bgstretcher ul, .bgstretcher ul li 
+		margin     : 0
+		padding    : 0
+		list-style : none
+
+	.bgstretcher 
+		background : $body-background
+		overflow   : hidden
+		width      : 100%
+		position   : fixed
+		z-index    : 1
+		_position  : absolute
+		top        : 0
+		left       : 0
+
+	#bgstretch-container // Used for Fullscreen BG
+		height   : 100%
+		width    : 100%
+		position : fixed
+		top      : 0
+		left     : 0
+		z-index  : 1

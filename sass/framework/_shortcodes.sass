@@ -1,0 +1,192 @@
+// Shotcut Mixins
+
+@mixin none
+	display: none
+
+@mixin block
+	display: block
+
+@mixin inline
+	display: inline
+
+@mixin inlineblock
+	display: inline-block
+	@if $support-lt-ie7	== true
+		.lt-ie8 &
+			display        : inline
+			zoom           : 1
+			vertical-align : auto
+@mixin left
+	float: left
+
+@mixin right
+	float: right
+
+@mixin buttonreplace
+	+cleartext
+	+block
+
+@mixin heightalign($height,$factor:1.3)
+
+	$line-height : $height * $factor
+	$height      : $height
+
+	@if unitless($height)
+		$height: $height + px
+		$line-height : $line-height + px
+
+	height: $height
+	line-height: $line-height
+
+@mixin fontalign($height,$factor:1.3)
+
+	$line-height : $height * $factor
+	$height      : $height
+
+	@if unitless($height)
+		$height      : $height + px
+		$line-height : $line-height + px
+
+	font-size   : $height
+	line-height : $line-height
+	
+@mixin decollapse
+	padding-top : 1px
+	margin-top  : -1px
+
+@mixin imagesize($name, $format: png)
+	$img   : #{$name}#{'.'}$format
+	height : image-height($img)
+	width  : image-width($img)
+
+
+@mixin size($size)
+	@if length($size) == 2
+		$width  : nth($size,1)
+		$height : nth($size,2)
+
+		@if unitless($width)
+			$width: $width + 0px
+		@if unitless($height)
+			$height: $height + 0px
+
+		@if $width > 0
+			width: $width
+		@if $height > 0
+			height: $height
+
+	@if length($size) == 1
+		$width: $size
+		$height: $size
+
+		@if unitless($width)
+			$width: $width + 0px
+		@if unitless($height)
+			$height: $height + 0px
+
+		width: $width
+		height: $height
+
+@mixin cleartext
+	text-indent    : -99999em
+	letter-spacing : -9999px
+
+@mixin relative($pos: 0 0 0 0)
+	position: relative
+	@if nth($pos, 1) > 0 or nth($pos, 1) < 0
+		$position:  floor(nth($pos,1))
+		@if unitless($position)
+			top      : $position + 0px
+		@else 
+			top      : $position
+
+	@if nth($pos, 2) > 0 or nth($pos, 2) < 0
+		$position:  floor(nth($pos,2))
+		@if unitless($position)
+			right      : $position + 0px
+		@else 
+			right      : $position
+
+	@if nth($pos, 3) > 0 or nth($pos, 3) < 0
+	
+		$position:  floor(nth($pos,3)) 
+		@if unitless($position)
+			bottom      : $position + 0px
+		@else 
+			bottom      : $position
+
+	@if nth($pos, 4) > 0 or nth($pos, 4) < 0
+		$position:  floor(nth($pos,4)) 
+		@if unitless($position)
+			left      : $position + 0px
+		@else 
+			left      : $position		
+
+@mixin absolute($pos: 0 0 0 0)
+	position: absolute
+	@if nth($pos, 1) > 0 or nth($pos, 1) < 0
+		$position:  floor(nth($pos,1))
+		@if unitless($position)
+			top      : $position + 0px
+		@else 
+			top      : $position
+
+	@if nth($pos, 2) > 0 or nth($pos, 2) < 0
+		$position:  floor(nth($pos,2))
+		@if unitless($position)
+			right      : $position + 0px
+		@else 
+			right      : $position
+
+	@if nth($pos, 3) > 0 or nth($pos, 3) < 0
+	
+		$position:  floor(nth($pos,3)) 
+		@if unitless($position)
+			bottom      : $position + 0px
+		@else 
+			bottom      : $position
+
+	@if nth($pos, 4) > 0 or nth($pos, 4) < 0
+		$position:  floor(nth($pos,4)) 
+		@if unitless($position)
+			left      : $position + 0px
+		@else 
+			left      : $position	
+
+@mixin fixed($pos: 0 0 0 0)
+	position: fixed
+	@if nth($pos, 1) > 0 or nth($pos, 1) < 0
+		$position:  floor(nth($pos,1))
+		@if unitless($position)
+			top      : $position + 0px
+		@else 
+			top      : $position
+
+	@if nth($pos, 2) > 0 or nth($pos, 2) < 0
+		$position:  floor(nth($pos,2))
+		@if unitless($position)
+			right      : $position + 0px
+		@else 
+			right      : $position
+
+	@if nth($pos, 3) > 0 or nth($pos, 3) < 0
+	
+		$position:  floor(nth($pos,3)) 
+		@if unitless($position)
+			bottom      : $position + 0px
+		@else 
+			bottom      : $position
+
+	@if nth($pos, 4) > 0 or nth($pos, 4) < 0
+		$position:  floor(nth($pos,4)) 
+		@if unitless($position)
+			left      : $position + 0px
+		@else 
+			left      : $position		
+
+@mixin static
+	position : static
+	left     : inherit
+	right    : inherit
+	top      : inherit
+	bottom   : inherit

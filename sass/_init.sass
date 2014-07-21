@@ -1,0 +1,214 @@
+/*!
+	Theme Name: 
+	Author: 
+	Author URI: 
+	Description:
+	Version:
+	License: 
+	Tags: 
+
+// ---------------------------------------------------------------------------------------
+
+@import compass
+@import framework/fontstacks
+
+// =========================== GLOBAL FRAMEWORK SETTINGS =================================
+
+// COMPASS EXPERIMENTAL SUPPORT SETTTINGS ------------------------------------------------
+$experimental-support-for-khtml     : false
+$experimental-support-for-microsoft : false 
+$experimental-support-for-svg		: false
+$support-lt-ie7						: true
+$support-lt-ie8						: true
+$support-lt-ie9						: true
+
+// $borderBoxHTCURL					: 'http://localhost/cliplister/js/polyfills'
+
+// =============================== TYPOGRAPHY ============================================
+ 
+// FONT STACKS
+// You can use the Predefined Fontstacks
+// $font-stack-times, $font-stack-georgia,$font-stack-gramond,$font-stack-helvetica,$font-stack-verdana,
+// $font-stack-trebuchet,$font-stack-impacta,$font-stack-monospace
+// Or the Fontstack Function. Your Own Font append to the Stack
+// font-stack-name(yourownfont)
+
+// DEFAULT BODY TAG VARIABLES 
+$body-font-size                     : 16
+$body-line-height                   : 24
+$body-font-family                   : font-stack-helvetica()
+$body-background                    : #efe7dc
+$body-color                         : #544D43
+
+// HEADING BASE STYLING
+// with none Headfont based on the Body Font
+// If h1-size or h6-size is none the Framework implements defaultsizes
+$head-font-family                   : none
+$h1-size                            : 36
+$h6-size                            : 18
+$lineheight-factor                  : 1.3
+
+// Mobile Resize the Typo on Mobile (1.0 - 0.0) 
+$resizefactor                       : 0.85
+
+// ================================ GRIDS ================================================
+
+// GRID SETTINGS 
+$grid-max-width                     : 960
+$grid-min-width                     : $grid-max-width
+$grid-offset                        : false
+$grid-ordering                      : false
+$colums                             : 12
+
+// RECALCULATE GRID SYSTEM 
+// Enter the Max Width of the Grid, the smallest Colum and the Gutter width
+$gridsize                           : false
+$smallcolsize                       : false
+$gutter                             : false
+
+// PIXEL BASED GRID VARIABLES 
+$pg-columns							: 12	
+$pg-gutter							: 20
+$pg-smallcolsize					: 60
+
+// CONTAINER PADDING VERTICAL 
+$container-padding                  : 20
+
+// BREAKPOINT max. Width to One Colum View 
+$responsivebreakpoint               : $grid-min-width
+
+// RESPONSIVE Ruleset for MediaBreakpoints
+$media-desktop   					: 1024
+$media-phone	  					: 480
+
+// Responsive Layout Options
+$responsive-input					: true
+$responsive-grid					: true
+$responsive-typo					: true
+$responsive-blockquotes				: false
+$responsive-blockgrid 				: false
+$responsive-holygrail				: false
+$responsive-equalheight				: false
+$responsive-buttons					: false
+$responsive-tabs 					: false
+$responsive-navbar  				: false
+$responsive-modal 					: false
+$responsive-visibility 				: false
+$responsive-tooltips				: false
+
+// BUTTON TRANSITION SETTINGS 
+$button-transition-duration         : .25s 
+
+// =============================== COLORS ================================================
+
+// COLORS FOR FRAMEWORKBUTTONS (ENTRY FALSE TO DISABLE THE COLORED BUTTON)
+$blue                               : #36AEE9
+$white                              : #F5F5F5
+$black                              : #282828
+$red                                : #DC0E0E
+$orange                             : #EA8D11
+$yellow                             : #EDBF07
+$green                              : #3CD80E
+
+// DEFAULT STYLING COLOR
+$default-color                      : $blue
+
+// Links
+$linkColor         					: $default-color
+$hoverColor        					: lighten($default-color,20)
+$focusColor        					: $hoverColor
+$activeColor       					: $hoverColor
+$linkTextDeco      					: none
+$linkTextDecoHover 					: underline
+
+// ======================== STYLING DYNAMIC ITEMS ========================================
+
+// FLEXSLIDER 
+$nav-right-offset                   : 16
+$nav-left-offset                    : 16
+$nav-position                       : center
+$control-size                       : 10
+$control-radius                     : 10
+$control-point                      : #fff
+$control-hover                      : lighten($default-color,20)
+$control-active                     : darken($default-color,10)
+$control-position                   : false // With false the Distance is calculated
+$caption-position                   : bottom
+$caption-background                 : rgba(0, 0, 0, 0.4)
+$caption-color                      : #fff
+$caption-fontsize                   : $body-font-size 
+$caption-align                      : left
+
+// FANCYBOX 
+$fb-radius                          : 4
+$fb-radius-inner                    : 0
+$fb-border-color                    : #f9f9f9
+$fb-nav-position                    : 50
+$fb-nav-offset-left                 : -16
+$fb-nav-offset-right                : $fb-nav-offset-left
+$fb-close-top                       : 6
+$fb-close-right                     : 6
+$fancy-option-buttons               : false
+$fancy-option-thumbs                : false
+
+// JSSCROLLER 
+$sb-width							: 10
+$sb-track							: #eee
+$sb-drag							: $default-color
+
+
+// =========================== IMPORT PARTIALS ===========================================
+
+@import framework/shortcodes
+@import framework/mixins 
+@import framework/globals
+@import framework/typography
+// @import framework/grid
+// @import framework/ui
+// @import framework/tables
+// @import framework/buttons 
+// @import framework/forms
+// @import framework/dynamic
+// @import framework/quickstyles
+// @import framework/pretify
+// @import framework/mobile
+// @import framework/font-awesome
+
+// INIT STICKY FOOTER 
+// @import compass/layout/sticky-footer
+// @include sticky-footer(75px, "#topWrapper","#footerIndicator","#bottomWrapper")
+
+// ==================================== SPRITES ==========================================
+
+// INIT FRAMEWORK SPRITES 
+// include the sprites with +fwicons-sprite(spritename)
+// $fwicons-sprite-dimensions : true
+// $fwicons-layout  		   : smart
+// $fwicons-spacing           : 30px
+// @import "fwicons/*.png"  
+
+// INIT STATIC SPRITES 
+// include the sprites with +sprite_s-sprite(spritename)
+// $sprite_s-sprite-dimensions : true
+// $sprite_s-layout	: smart
+// $sprite_s-spacing           : 20px
+// @import "sprite_s/*.png"
+
+// INIT REPEATABLE SPRITES 
+// include the sprites with +sprite_r-sprite(spritename)
+// $sprite_r-spacing           : 20px
+// $sprite_r-sprite-dimensions : false 
+// $sprite_r-repeat            : repeat-x
+// @import "sprite_r/*.png"
+
+
+// ================================= FONTS ===============================================
+
+// INCLUDE ICON FONT
+// +iconfont($filename: kickstarter, $fontweight: normal)
+
+// INIT FONTFACE
+// +fontface($filename: yourfontname, $fontweight: 200)
+
+
+   
